@@ -1,47 +1,58 @@
 import {baseUrl} from "@/consts";
+import {useState} from "react";
 
 export default function Signup() {
-    // Handles the submit event on form submit.
+    const [errors, setErrors] = useState([]);
+
     const handleSubmit = async (event) => {
-        // Stop the form from submitting and refreshing the page.
         event.preventDefault();
 
-        // Get data from the form.
         const data = {
-            first: event.target.first.value,
-            last: event.target.last.value,
+            email: event.target.email.value,
+            password: event.target.password.value,
+            password_confirm: event.target.confirmPassword.value,
         };
 
-        // Send the data to the server in JSON format.
-        const JSONdata = JSON.stringify(data);
-
-        // Form the request for sending data to the server.
-        const options = {
-            // The method is POST because we are sending data.
+        fetch(baseUrl + "account/register/", {
             method: "POST",
-            // Tell the server we"re sending JSON.
-            headers: {
-                "Content-Type": "application/json",
-            },
-            // Body of the request is the JSON data we created above.
-            body: JSONdata,
-        };
-
-        // Send the form data to our forms API on Vercel and get a response.
-        const response = await fetch(baseUrl, options);
-
-        // Get the response data from server as JSON.
-        // If server returns the name submitted, that means the form works.
-        const result = await response.json();
-        alert(`Is this your full name: ${result.data}`);
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(data),
+        }).then(function(response) {
+                if (!response.ok) {
+                    return response.json();
+                }
+        }).then(function(result) {
+            let msgs = [];
+            for (const [key, value] of Object.entries(result)) {
+                msgs.push(...value);
+            }
+            setErrors(msgs);
+        })
     };
+
+    function errorMessage() {
+        console.log(errors);
+
+        return (
+            <div className="bg-red-300 rounded p-2" style={{display: errors === [] ? "" : "none"}}>
+                {errors.map(function(msg, i){
+                    return <p key={i}>{msg}</p>;
+                })}
+            </div>
+        );
+    }
+
     return (
-        // We pass the event to the handleSubmit() function on submit.
-        <form action="/api/signup" method="POST">
-            <input minLength="3" name="username" id="username" type="text" placeholder="username" required></input><br/>
-            <input minLength="5" name="password" id="password" type="password" placeholder="password" required></input><br/>
-            <input minLength="5" name="passwordagain" id="passwordagain" type="password" placeholder="password again" required></input><br/>
-            <input type="submit" value="Signup"/>
-        </form>
+        <div className="flex-col space-y-5 items-center">
+            <div>
+                {errorMessage()}
+            </div>
+            <form onSubmit={handleSubmit} className="space-y-5">
+                <input className="flex border-2 p-0.5 rounded-sm" id="email" type="email" placeholder="Email" required/>
+                <input className="flex border-2 p-0.5 rounded-sm" minLength="8" id="password" type="password" placeholder="Password" required/>
+                <input className="flex border-2 p-0.5 rounded-sm" minLength="8" id="confirmPassword" type="password" placeholder="Confirm Password" required/>
+                <button className="flex h-8 rounded-sm px-2.5 bg-std-blue hover:bg-std-blue-hover items-center text-white font-medium text-base" type="submit" value="Signup">Sign Up</button>
+            </form>
+        </div>
     );
 }
