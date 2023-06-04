@@ -1,13 +1,15 @@
-import {baseUrl} from "@/consts";
 import {useState} from "react";
+import {baseUrl} from "@/consts";
 
 export default function Signup() {
+    const [data, setData] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState([]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const data = {
+        const payload = {
             email: event.target.email.value,
             password: event.target.password.value,
             password_confirm: event.target.confirmPassword.value,
@@ -16,11 +18,14 @@ export default function Signup() {
         fetch(baseUrl + "account/register/", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(data),
+            body: JSON.stringify(payload),
         }).then(function(response) {
-                if (!response.ok) {
-                    return response.json();
-                }
+            if (!response.ok) {
+                return response.json();
+            }
+            setIsLoading(false);
+            setData(response.json());
+            setErrors([]);
         }).then(function(result) {
             let msgs = [];
             for (const [key, value] of Object.entries(result)) {
@@ -31,11 +36,9 @@ export default function Signup() {
     };
 
     function errorMessage() {
-        console.log(errors);
-
         return (
-            <div className="bg-red-300 rounded p-2" style={{display: errors === [] ? "" : "none"}}>
-                {errors.map(function(msg, i){
+            <div className="bg-red-300 rounded p-2 flex flex-col space-y-2" style={{display: errors.length === 0 ? "none" : ""}}>
+                {errors.map(function(msg, i) {
                     return <p key={i}>{msg}</p>;
                 })}
             </div>
@@ -44,14 +47,12 @@ export default function Signup() {
 
     return (
         <div className="flex-col space-y-5 items-center">
-            <div>
-                {errorMessage()}
-            </div>
-            <form onSubmit={handleSubmit} className="space-y-5">
-                <input className="flex border-2 p-0.5 rounded-sm" id="email" type="email" placeholder="Email" required/>
-                <input className="flex border-2 p-0.5 rounded-sm" minLength="8" id="password" type="password" placeholder="Password" required/>
-                <input className="flex border-2 p-0.5 rounded-sm" minLength="8" id="confirmPassword" type="password" placeholder="Confirm Password" required/>
-                <button className="flex h-8 rounded-sm px-2.5 bg-std-blue hover:bg-std-blue-hover items-center text-white font-medium text-base" type="submit" value="Signup">Sign Up</button>
+            {errorMessage()}
+            <form onSubmit={handleSubmit} className="flex flex-col space-y-5">
+                <input className="border-2 p-0.5 rounded-sm" id="email" type="email" placeholder="Email" required/>
+                <input className="border-2 p-0.5 rounded-sm" minLength="8" id="password" type="password" placeholder="Password" required/>
+                <input className="border-2 p-0.5 rounded-sm" minLength="8" id="confirmPassword" type="password" placeholder="Confirm Password" required/>
+                <button className="h-8 rounded-sm mx-24 bg-std-blue hover:bg-std-blue-hover text-white font-medium text-base" type="submit" value="Signup">Sign Up</button>
             </form>
         </div>
     );
