@@ -2,11 +2,14 @@
 
 import {useState} from "react";
 import {baseUrl} from "@/consts";
+import { useRouter } from "next/navigation";
 
 export default function Signup() {
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState([]);
+
+    const router = useRouter();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -28,13 +31,14 @@ export default function Signup() {
             setIsLoading(false);
             setData(response.json());
             setErrors([]);
+            router.push("/feed");
         }).then(function(result) {
             let msgs = [];
             for (const [key, value] of Object.entries(result)) {
                 msgs.push(...value);
             }
             setErrors(msgs);
-        })
+        });
     };
 
     function errorMessage() {

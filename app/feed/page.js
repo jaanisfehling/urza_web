@@ -1,18 +1,32 @@
-import useSWR from 'swr';
-
-const fetcher = (...args) => fetch(...args).then((res) => res.json());
+import {baseUrl} from "@/consts";
+import {useRouter} from "next/navigation";
+import {useState} from "react";
 
 export default function Feed() {
-    const { data, error, isLoading } = useSWR('/api/profile-data', fetcher);
+    const [data, setData] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [errors, setErrors] = useState([]);
 
-    if (error) return <div>Failed to load</div>;
-    if (!data) return <div>Loading...</div>;
+    const router = useRouter();
+
+    fetch(baseUrl + "news/article/", {
+        method: "GET",
+        headers: {"Content-Type": "application/json"}
+    }).then(function(response) {
+        if (!response.ok) {
+            return response.json();
+        }
+    }).then(function(result) {
+        let msgs = [];
+        for (const [key, value] of Object.entries(result)) {
+            msgs.push(...value);
+        }
+        setErrors(msgs);
+    });
 
     return (
-        <div className="flex flex-col space-y-2">
-            {data.map(function(msg, i) {
-                return <p key={i}>{msg}</p>;
-            })}
-        </div>
-    );
+        <main className="bg-white min-h-screen">
+            Hello World
+        </main>
+    )
 }
