@@ -19,26 +19,24 @@ export default function Signup() {
             password: event.target.password.value,
             password_confirm: event.target.confirmPassword.value,
         };
-
-        fetch(baseUrl + "account/register/", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(payload),
-        }).then(function(response) {
-            if (!response.ok) {
-                return response.json();
+        const response = await fetch(baseUrl + "account/register/", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(payload),
             }
-            setIsLoading(false);
-            setData(response.json());
-            setErrors([]);
-            router.push("/feed");
-        }).then(function(result) {
+        );
+        if (!response.ok) {
             let msgs = [];
-            for (const [key, value] of Object.entries(result)) {
+            for (const [key, value] of Object.entries(await response.json())) {
                 msgs.push(...value);
             }
             setErrors(msgs);
-        });
+        } else {
+            setIsLoading(false);
+            setData(await response.json());
+            setErrors([]);
+            router.push("/feed");
+        }
     };
 
     function errorMessage() {
