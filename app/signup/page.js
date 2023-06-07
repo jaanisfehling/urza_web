@@ -1,12 +1,10 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import useSignup from "@/hooks/useSignup";
 import {useState} from "react";
 import Indicator from "@/components/indicator";
 
 export default function Signup() {
-    const router = useRouter();
     const [payload, setPayload] = useState(null);
     const {data, isLoading, errors} = useSignup(payload);
 
