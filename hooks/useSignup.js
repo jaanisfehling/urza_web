@@ -7,26 +7,40 @@ export default function useSignup(payload) {
     const [errors, setErrors] = useState([]);
 
     useEffect(() => {
-        const registerUser = async () => {
-            const response = await axios.post("/account/register/", JSON.stringify(payload), {
-                    headers: {"Content-Type": "application/json"},
-                }
-            ).catch(err => {
-                console.error(err);
-            });
-            if (response && response.status >= 200 && response.status <= 299) {
+        async function registerUser() {
+            try {
+                setIsLoading(true);
+                const response = await axios.post("/account/register/", JSON.stringify(payload), {
+                        headers: {"Content-Type": "application/json"},
+                    }
+                )
+                setData(await response);
                 setIsLoading(false);
-                setData(await response.json());
                 setErrors([]);
-            } else {
-                let msgs = [];
-                for (const [key, value] of Object.entries(await response.json())) {
-                    msgs.push(...value);
+            } catch (error) {
+                setIsLoading(false);
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    let msgs = [];
+                    for (const [key, value] of Object.entries(await error.response.data)) {
+                        msgs.push(...value);
+                    }
+                    setErrors(msgs);
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                    // http.ClientRequest in node.js
+                    setErrors(["Cannot reach server"]);
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    setErrors(["Error: Try a different browser"]);
                 }
-                setErrors(msgs);
             }
         }
-        registerUser();
+        if (payload) {
+            registerUser();
+        }
     }, [payload]);
     return {data, isLoading, errors};
 }
