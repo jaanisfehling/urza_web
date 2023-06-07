@@ -1,42 +1,21 @@
 "use client";
 
-import {useState} from "react";
-import {baseUrl} from "@/consts";
 import { useRouter } from "next/navigation";
+import useSignup from "@/hooks/useSignup";
+import {useState} from "react";
 
 export default function Signup() {
-    const [data, setData] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const [errors, setErrors] = useState([]);
-
     const router = useRouter();
+    const [payload, setPayload] = useState(null);
+    const {data, isLoading, errors} = useSignup(null);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        const payload = {
+        setPayload({
             email: event.target.email.value,
             password: event.target.password.value,
             password_confirm: event.target.confirmPassword.value,
-        };
-        const response = await fetch(baseUrl + "account/register/", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(payload),
-            }
-        );
-        if (!response.ok) {
-            let msgs = [];
-            for (const [key, value] of Object.entries(await response.json())) {
-                msgs.push(...value);
-            }
-            setErrors(msgs);
-        } else {
-            setIsLoading(false);
-            setData(await response.json());
-            setErrors([]);
-            router.push("/feed");
-        }
+        });
     };
 
     function errorMessage() {

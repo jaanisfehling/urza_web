@@ -1,6 +1,5 @@
 "use client"
 
-import {baseUrl} from "@/consts";
 import {useRouter} from "next/navigation";
 import {useEffect, useState} from "react";
 
