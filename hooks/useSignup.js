@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import axios from "@/api/axios";
+import {capFirstLetter} from "@/api/utils";
 
 export default function useSignup(payload) {
     const [data, setData] = useState(null);
@@ -14,7 +15,7 @@ export default function useSignup(payload) {
                         headers: {"Content-Type": "application/json"},
                     }
                 )
-                setData(await response);
+                setData(response);
                 setIsLoading(false);
                 setErrors([]);
             } catch (error) {
@@ -22,19 +23,20 @@ export default function useSignup(payload) {
                 if (error.response) {
                     // The request was made and the server responded with a status code
                     // that falls out of the range of 2xx
-                    let msgs = [];
-                    for (const [key, value] of Object.entries(await error.response.data)) {
-                        msgs.push(...value);
+                    let messages = [];
+                    for (const [key, field] of Object.entries(error.response.data)) {
+                        for (let message of field)
+                        messages.push(capFirstLetter(message));
                     }
-                    setErrors(msgs);
+                    setErrors(messages);
                 } else if (error.request) {
                     // The request was made but no response was received
                     // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
                     // http.ClientRequest in node.js
-                    setErrors(["Cannot reach server"]);
+                    setErrors(["Cannot reach server."]);
                 } else {
                     // Something happened in setting up the request that triggered an Error
-                    setErrors(["Error: Try a different browser"]);
+                    setErrors(["Error: Try a different browser."]);
                 }
             }
         }

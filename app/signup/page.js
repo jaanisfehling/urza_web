@@ -12,10 +12,19 @@ export default function Signup() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        setPayload({
+        const newPayload = {
             email: event.target.email.value,
             password: event.target.password.value,
             password_confirm: event.target.confirmPassword.value,
+        }
+        setPayload(prevState => {
+            if (prevState?.email === newPayload.email
+                && prevState?.password === newPayload.password
+                && prevState?.password_confirm === newPayload.password_confirm) {
+                return prevState;
+            } else {
+                return newPayload;
+            }
         });
     };
 
@@ -30,14 +39,14 @@ export default function Signup() {
     }
 
     return (
-        <main className="min-h-screen bg-white flex flex-col">
-            <div className="m-auto  space-y-5 items-center ">
+        <main className="min-h-screen bg-white flex">
+            <div className="m-auto space-y-5 flex flex-col">
                 {errorMessage()}
                 <form onSubmit={handleSubmit} className="flex flex-col space-y-5">
-                    <input className="border-2 p-0.5 rounded-sm" id="email" type="email" placeholder="Email" required/>
-                    <input className="border-2 p-0.5 rounded-sm" minLength="8" id="password" type="password" placeholder="Password" required/>
-                    <input className="border-2 p-0.5 rounded-sm" minLength="8" id="confirmPassword" type="password" placeholder="Confirm Password" required/>
-                    {isLoading ? <Indicator className="h-8 rounded-sm mx-24 bg-std-blue"/> : <button className="h-8 rounded-sm mx-24 bg-std-blue hover:bg-std-blue-hover text-white font-medium text-base" type="submit" value="Signup">Sign Up</button>}
+                    <input className="h-10 border-2 p-0.5 rounded-sm" id="email" type="email" placeholder="Email" required/>
+                    <input className="h-10 border-2 p-0.5 rounded-sm" minLength="8" id="password" type="password" placeholder="Password" required/>
+                    <input className="h-10 border-2 p-0.5 rounded-sm" minLength="8" id="confirmPassword" type="password" placeholder="Confirm Password" required/>
+                    {isLoading ? <Indicator className="p-1.5 m-auto h-10 w-20 rounded-sm bg-std-blue-hover"/> : <button className="m-auto h-10 w-20 rounded-sm bg-std-blue hover:bg-std-blue-hover text-white font-medium text-base" type="submit" value="Signup">Sign Up</button>}
                 </form>
             </div>
         </main>
