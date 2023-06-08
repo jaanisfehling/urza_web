@@ -1,13 +1,13 @@
-import {useContext, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import axios from "@/api/axios";
 import {clientError, connectionError, getErrorMessages} from "@/api/utils";
-import AuthContext from "@/context/AuthProvider";
+import {useRouter} from "next/navigation";
 
 export default function useLogin(payload) {
-    const [data, setData] = useState(null);
+    const [tokens, setTokens] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState([]);
-    const { setAuth } = useContext(AuthContext);
+    const router = useRouter();
 
     useEffect(() => {
         async function login() {
@@ -17,7 +17,8 @@ export default function useLogin(payload) {
                         headers: {"Content-Type": "application/json"},
                     }
                 )
-                setData(response);
+                setTokens({access: response?.data?.access, refresh: response?.data?.refresh});
+                router.push("/feed");
                 setIsLoading(false);
                 setErrors([]);
             } catch (error) {
@@ -32,6 +33,7 @@ export default function useLogin(payload) {
                     // http.ClientRequest in node.js
                     setErrors([connectionError]);
                 } else {
+                    console.log(error)
                     // Something happened in setting up the request that triggered an Error
                     setErrors([clientError]);
                 }
@@ -41,5 +43,5 @@ export default function useLogin(payload) {
             login();
         }
     }, [payload]);
-    return {data, isLoading, errors};
+    return {isLoading, errors};
 }

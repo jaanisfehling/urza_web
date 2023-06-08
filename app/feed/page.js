@@ -10,27 +10,6 @@ export default function Feed() {
 
     const router = useRouter();
 
-    useEffect(() => {
-        const fetchInitialArticles = async () => {
-            fetch(baseUrl + "news/article/", {
-                method: "GET",
-                headers: {"Content-Type": "application/json"},
-                cache: "no-store"
-            }).then(function(response) {
-                if (!response.ok) {
-                    return response.json();
-                }
-                setIsLoading(false);
-                setData(response.json());
-                setErrors([]);
-            }).then(function(result) {
-                setErrors(result);
-            });
-        }
-        fetchInitialArticles();
-    }, []);
-
-
     return (
         <main className="bg-white min-h-screen">
         </main>
