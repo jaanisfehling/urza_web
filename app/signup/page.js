@@ -3,12 +3,13 @@
 import useSignup from "@/hooks/useSignup";
 import {useState} from "react";
 import Indicator from "@/components/indicator";
+import {clientError, connectionError, errorMessages} from "@/api/utils";
 
 export default function Signup() {
     const [payload, setPayload] = useState(null);
     const {data, isLoading, errors} = useSignup(payload);
 
-    const handleSubmit = async (event) => {
+    async function handleSubmit(event) {
         event.preventDefault();
         const newPayload = {
             email: event.target.email.value,
@@ -18,28 +19,20 @@ export default function Signup() {
         setPayload(prevState => {
             if (prevState?.email === newPayload.email
                 && prevState?.password === newPayload.password
-                && prevState?.password_confirm === newPayload.password_confirm) {
+                && prevState?.password_confirm === newPayload.password_confirm
+                && errors[0] !== connectionError
+                && errors[0] !== clientError) {
                 return prevState;
             } else {
                 return newPayload;
             }
         });
-    };
-
-    function errorMessage() {
-        return (
-            <div className="bg-red-300 rounded p-2 flex flex-col space-y-2" style={{display: errors.length === 0 ? "none" : ""}}>
-                {errors.map(function(msg, i) {
-                    return <p key={i}>{msg}</p>;
-                })}
-            </div>
-        );
     }
 
     return (
         <main className="min-h-screen bg-white flex">
-            <div className="m-auto space-y-5 flex flex-col">
-                {errorMessage()}
+            <div className="m-auto w-80 space-y-5 flex flex-col">
+                {errorMessages(errors)}
                 <form onSubmit={handleSubmit} className="flex flex-col space-y-5">
                     <input className="h-10 border-2 p-0.5 rounded-sm" id="email" type="email" placeholder="Email" required/>
                     <input className="h-10 border-2 p-0.5 rounded-sm" minLength="8" id="password" type="password" placeholder="Password" required/>

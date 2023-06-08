@@ -8,7 +8,7 @@ export function Navbar() {
                 <Link href="/login" className="flex rounded-sm h-8 px-2.5 m-2 bg-std-blue hover:bg-std-blue-hover items-center text-white font-medium text-base" type="button">
                     Login
                 </Link>
-                <Link href="/login" className="flex rounded-sm h-8 px-2.5 m-2 bg-std-blue hover:bg-std-blue-hover items-center text-white font-medium text-base" type="button">
+                <Link href="/signup" className="flex rounded-sm h-8 px-2.5 m-2 bg-std-blue hover:bg-std-blue-hover items-center text-white font-medium text-base" type="button">
                     Sign Up
                 </Link>
             </div>

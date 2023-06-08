@@ -22,3 +22,16 @@ export function getErrorMessages(data) {
     }
     return messages;
 }
+
+export const connectionError = "Cannot reach server";
+export const clientError = "Error: Try a different browser";
+
+export function errorMessages(errors) {
+    return (
+        <div className="bg-red-300 rounded p-2 flex flex-col space-y-2" style={{display: errors.length === 0 ? "none" : ""}}>
+            {errors.map(function(msg, i) {
+                return <p key={i}>{msg}</p>;
+            })}
+        </div>
+    );
+}
