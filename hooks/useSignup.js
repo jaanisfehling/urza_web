@@ -28,10 +28,10 @@ export default function useSignup(payload) {
                     // The request was made but no response was received
                     // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
                     // http.ClientRequest in node.js
-                    setErrors(["Cannot reach server."]);
+                    setErrors(["Cannot reach server"]);
                 } else {
                     // Something happened in setting up the request that triggered an Error
-                    setErrors(["Error: Try a different browser."]);
+                    setErrors(["Error: Try a different browser"]);
                 }
             }
         }
