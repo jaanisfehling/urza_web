@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import axios from "@/api/axios";
-import {capFirstLetter} from "@/api/utils";
+import {getErrorMessages} from "@/api/utils";
 
 export default function useSignup(payload) {
     const [data, setData] = useState(null);
@@ -23,12 +23,7 @@ export default function useSignup(payload) {
                 if (error.response) {
                     // The request was made and the server responded with a status code
                     // that falls out of the range of 2xx
-                    let messages = [];
-                    for (const [key, field] of Object.entries(error.response.data)) {
-                        for (let message of field)
-                        messages.push(capFirstLetter(message));
-                    }
-                    setErrors(messages);
+                    setErrors(getErrorMessages(error.response.data));
                 } else if (error.request) {
                     // The request was made but no response was received
                     // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
