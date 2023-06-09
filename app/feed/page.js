@@ -1,17 +1,14 @@
-"use client"
+"use client";
 
-import {useRouter} from "next/navigation";
-import {useEffect, useState} from "react";
+import useFetch from "@/hooks/useFetch";
+import {Errors} from "@/components/errors";
 
 export default function Feed() {
-    const [data, setData] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const [errors, setErrors] = useState([]);
-
-    const router = useRouter();
+    const {result, isLoading, errors} = useFetch("GET", "/news/article/");
 
     return (
         <main className="bg-white min-h-screen">
+            <Errors errors={errors} />
         </main>
     )
 }
