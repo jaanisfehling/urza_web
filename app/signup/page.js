@@ -2,7 +2,7 @@
 
 import {useState} from "react";
 import {clientError, connectionError} from "@/api/utils";
-import {Errors} from "@/components/errors";
+import Errors from "@/components/errors";
 import useFetch from "@/hooks/useFetch";
 import {useRouter} from "next/navigation";
 import Button from "@/components/button";
@@ -36,11 +36,12 @@ export default function Signup() {
         });
     }
     if (success) {
-        router.push(`/welcome?email=${result.email}`);
+        sessionStorage.setItem("email", result.email)
+        router.push("/welcome");
     }
 
     return (
-        <main className="min-h-screen bg-white flex">
+        <div className="min-h-screen bg-white flex">
             <div className="m-auto w-80 space-y-5 flex flex-col">
                 <Errors errors={errors} />
                 <form onSubmit={handleSubmit} className="flex flex-col space-y-5">
@@ -50,6 +51,6 @@ export default function Signup() {
                     <Button text="Sign Up" isLoading={isLoading} />
                 </form>
             </div>
-        </main>
+        </div>
     );
 }

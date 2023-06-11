@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Home() {
     return (
-        <main className="min-h-screen bg-white flex flex-col">
+        <div className="min-h-screen bg-white flex flex-col">
             <Navbar></Navbar>
             <div className="flex flex-col items-center m-auto space-y-4">
                 <h1 className="">
@@ -13,6 +13,6 @@ export default function Home() {
                     Sign Up
                 </Link>
             </div>
-        </main>
+        </div>
     )
 }

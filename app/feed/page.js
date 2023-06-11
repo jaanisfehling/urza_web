@@ -1,14 +1,14 @@
 "use client";
 
 import useFetch from "@/hooks/useFetch";
-import {Errors} from "@/components/errors";
+import Errors from "@/components/errors";
 
 export default function Feed() {
     const {result, isLoading, errors} = useFetch("GET", "/news/article/");
 
     return (
-        <main className="bg-white min-h-screen">
+        <div className="bg-white min-h-screen">
             <Errors errors={errors} />
-        </main>
+        </div>
     )
 }
