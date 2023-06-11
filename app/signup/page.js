@@ -1,15 +1,15 @@
 "use client";
 
 import {useState} from "react";
-import Indicator from "@/components/indicator";
 import {clientError, connectionError} from "@/api/utils";
 import {Errors} from "@/components/errors";
 import useFetch from "@/hooks/useFetch";
 import {useRouter} from "next/navigation";
+import Button from "@/components/button";
 
 export default function Signup() {
     const [payload, setPayload] = useState(null);
-    const {success, isLoading, errors} = useFetch("POST", "/account/register/", payload);
+    const {success, isLoading, errors, setErrors} = useFetch("POST", "/account/users/", payload);
     const router = useRouter();
 
     async function handleSubmit(event) {
@@ -17,12 +17,12 @@ export default function Signup() {
         const newPayload = {
             email: event.target.email.value,
             password: event.target.password.value,
-            password_confirm: event.target.confirmPassword.value,
+            re_password: event.target.confirmPassword.value,
         }
         setPayload(prevState => {
             if (prevState?.email === newPayload.email
                 && prevState?.password === newPayload.password
-                && prevState?.password_confirm === newPayload.password_confirm
+                && prevState?.re_password === newPayload.re_password
                 && errors[0] !== connectionError
                 && errors[0] !== clientError) {
                 return prevState;
@@ -32,6 +32,7 @@ export default function Signup() {
         });
     }
     if (success) {
+        localStorage.setItem("access", result.access);
         router.push("/welcome");
     }
 
@@ -43,7 +44,7 @@ export default function Signup() {
                     <input className="h-10 border-2 p-0.5 rounded-sm" id="email" type="email" placeholder="Email" required/>
                     <input className="h-10 border-2 p-0.5 rounded-sm" minLength="8" id="password" type="password" placeholder="Password" required/>
                     <input className="h-10 border-2 p-0.5 rounded-sm" minLength="8" id="confirmPassword" type="password" placeholder="Confirm Password" required/>
-                    {isLoading ? <Indicator className="p-1.5 m-auto h-10 w-20 rounded-sm bg-std-blue-hover"/> : <button className="m-auto h-10 w-20 rounded-sm bg-std-blue hover:bg-std-blue-hover text-white font-medium text-base" type="submit" value="Signup">Sign Up</button>}
+                    <Button text="Sign Up" isLoading={isLoading} />
                 </form>
             </div>
         </main>

@@ -1,12 +1,12 @@
 "use client";
 
-import Indicator from "@/components/indicator";
 import {useState} from "react";
 import {clientError, connectionError} from "@/api/utils";
 import {useRouter} from "next/navigation";
 import {Errors} from "@/components/errors";
 import useFetch from "@/hooks/useFetch";
 import axios from "@/api/axios";
+import Button from "@/components/button";
 
 export default function Login() {
     const [payload, setPayload] = useState(null);
@@ -44,7 +44,7 @@ export default function Login() {
                 <form onSubmit={handleSubmit} className="flex flex-col space-y-5">
                     <input className="h-10 border-2 p-0.5 rounded-sm" id="email" type="email" placeholder="Email" required/>
                     <input className="h-10 border-2 p-0.5 rounded-sm" id="password" type="password" placeholder="Password" required/>
-                    {isLoading ? <Indicator className="p-1.5 m-auto h-10 w-20 rounded-sm bg-std-blue-hover"/> : <button className="m-auto h-10 w-20 rounded-sm bg-std-blue hover:bg-std-blue-hover text-white font-medium text-base" type="submit" value="Signup">Login</button>}
+                    <Button text="Login" isLoading={isLoading} />
                 </form>
             </div>
         </main>

@@ -37,5 +37,5 @@ export default function useFetch(method, url, payload) {
             fetch();
         }
     }, [payload]);
-    return {success, result, isLoading, errors};
+    return {success, result, isLoading, errors, setSuccess, setResult, setIsLoading, setErrors};
 }
