@@ -9,11 +9,15 @@ import Button from "@/components/button";
 
 export default function Signup() {
     const [payload, setPayload] = useState(null);
-    const {success, isLoading, errors, setErrors} = useFetch("POST", "/account/users/", payload);
+    const {success, result, isLoading, errors, setErrors} = useFetch("POST", "/account/users/", payload);
     const router = useRouter();
 
     async function handleSubmit(event) {
         event.preventDefault();
+        if (event.target.password.value != event.target.confirmPassword.value) {
+            setErrors(["The two password fields didn't match"]);
+            return;
+        }
         const newPayload = {
             email: event.target.email.value,
             password: event.target.password.value,
@@ -32,8 +36,7 @@ export default function Signup() {
         });
     }
     if (success) {
-        localStorage.setItem("access", result.access);
-        router.push("/welcome");
+        router.push(`/welcome?email=${result.email}`);
     }
 
     return (

@@ -27,9 +27,9 @@ export default function useFetch(method, url, payload) {
                 if (error.response) {
                     setErrors(getErrorMessages(error.response.data));
                 } else if (error.request) {
-                    setErrors([connectionError]);
+                    setErrors(["Cannot reach server"]);
                 } else {
-                    setErrors([clientError]);
+                    setErrors(["Error: Try a different browser"]);
                 }
             }
         }
