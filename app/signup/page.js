@@ -1,7 +1,6 @@
 "use client";
 
 import {useState} from "react";
-import {clientError, connectionError} from "@/api/utils";
 import Errors from "@/components/errors";
 import useFetch from "@/hooks/useFetch";
 import {useRouter} from "next/navigation";

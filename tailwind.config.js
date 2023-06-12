@@ -9,7 +9,7 @@ module.exports = {
     extend: {
       colors: {
         'std-blue': '#123456',
-        'std-blue-hover': '#15416c'
+        'std-blue-hover': '#1a3f7a'
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
