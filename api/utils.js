@@ -22,3 +22,6 @@ export function getErrorMessages(data) {
     }
     return messages;
 }
+
+export const connectionError = "Cannot reach server";
+export const clientError = "Error: Try a different browser";
