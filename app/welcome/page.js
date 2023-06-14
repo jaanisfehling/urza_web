@@ -15,7 +15,7 @@ export default function Welcome() {
                 <Errors errors={errors} />
                 <p>We have sent you an email containing a link to verify your account</p>
                 <p>Please verify your email before you can proceed</p>
-                <Button text="Resend" isLoading={isLoading} onClick={() => {setPayload({email: sessionStorage.getItem("email")})}}/>
+                <Button className="p-1.5 m-auto h-10 w-24" text="Resend" isLoading={isLoading} onClick={() => {setPayload({email: sessionStorage.getItem("email")})}}/>
             </div>
         </div>
     )

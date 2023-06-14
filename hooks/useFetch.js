@@ -18,10 +18,10 @@ export default function useFetch(method, url, payload) {
                 } else {
                     response = await axios.request({method: method, url: url, data: payload});
                 }
-                setSuccess(true);
                 setResult(response.data);
                 setErrors([]);
                 setIsLoading(false);
+                setSuccess(true);
             } catch (error) {
                 setIsLoading(false);
                 if (error.response) {

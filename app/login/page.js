@@ -44,7 +44,7 @@ export default function Login() {
                 <form onSubmit={handleSubmit} className="flex flex-col space-y-5">
                     <input className="h-10 border-2 p-0.5 rounded-sm" id="email" type="email" placeholder="Email" required/>
                     <input className="h-10 border-2 p-0.5 rounded-sm" id="password" type="password" placeholder="Password" required/>
-                    <Button text="Login" isLoading={isLoading} />
+                    <Button className="p-1.5 m-auto h-10 w-24" text="Login" isLoading={isLoading} />
                 </form>
             </div>
         </div>

@@ -5,15 +5,15 @@ import Link from "next/link";
 export default function Navbar() {
     if (localStorage.getItem("access")) {
         return (
-            <div className="flex px-4 justify-between bg-white sticky h-14 w-full items-center border-std-blue border-b-2">
-                <Link href="/feed" className="text-2xl text-std-blue">
+            <div className="flex items-center px-4 justify-between bg-white sticky h-14 w-full border-std-blue border-b-2">
+                <Link href="/feed" className="text-2xl font-normal text-black">
                     Urza
                 </Link>
                 <div className="flex space-x-2">
-                    <Link href="/dashboard" className="flex rounded-sm h-8 px-2.5 m-2 border-2 border-std-blue hover:bg-sky-200 items-center text-black font-normal text-base" type="button">
+                    <Link href="/dashboard" className="flex items-center h-8 px-2.5 m-2 rounded-sm border-2 border-std-blue hover:bg-sky-200 text-std-blue font-normal text-base">
                         Dashboard
                     </Link>
-                    <Link href="/feed" className="flex rounded-sm h-8 px-2.5 m-2 bg-std-blue hover:bg-std-blue-hover items-center text-white font-normal text-base" type="button">
+                    <Link href="/feed" className="flex items-center h-8 px-2.5 m-2 bg-std-blue rounded-sm hover:bg-std-blue-hover text-white font-normal text-base">
                         Feed
                     </Link>
                 </div>
@@ -22,15 +22,15 @@ export default function Navbar() {
     }
     else {
         return (
-            <div className="flex px-4 justify-between bg-white sticky h-14 w-full items-center border-std-blue border-b-2">
-                <Link href="/" className="text-2xl text-std-blue">
+            <div className="flex items-center px-4 justify-between bg-white sticky h-14 w-full border-std-blue border-b-2">
+                <Link href="" className="text-2xl font-normal text-std-blue">
                     Urza
                 </Link>
                 <div className="flex space-x-2">
-                    <Link href="/login" className="flex rounded-sm h-8 px-2.5 m-2 border-2 border-std-blue hover:bg-sky-200 items-center text-black font-normal text-base" type="button">
+                    <Link href="/login" className="flex items-center h-8 px-2.5 m-2 rounded-sm border-2 border-std-blue hover:bg-sky-200 text-std-blue font-normal text-base">
                         Login
                     </Link>
-                    <Link href="/signup" className="flex rounded-sm h-8 px-2.5 m-2 bg-std-blue hover:bg-std-blue-hover items-center text-white font-normal text-base" type="button">
+                    <Link href="/signup" className="flex items-center h-8 px-2.5 m-2 bg-std-blue rounded-sm hover:bg-std-blue-hover text-white font-normal text-base">
                         Sign Up
                     </Link>
                 </div>
