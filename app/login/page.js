@@ -5,7 +5,6 @@ import {clientError, connectionError} from "@/api/utils";
 import {useRouter} from "next/navigation";
 import Errors from "@/components/errors";
 import useFetch from "@/hooks/useFetch";
-import axios from "@/api/axios";
 import Button from "@/components/button";
 
 export default function Login() {
@@ -31,7 +30,6 @@ export default function Login() {
         });
     }
     if (success) {
-        axios.defaults.headers.common = {'Authorization': `Bearer ${result.access}`};
         localStorage.setItem("access", result.access);
         localStorage.setItem("refresh", result.refresh);
         router.push("/feed");

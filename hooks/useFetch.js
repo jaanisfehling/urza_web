@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import axios from "@/api/axios";
+import { axiosInstance } from "@/api/axios";
 import {clientError, connectionError, getErrorMessages} from "@/api/utils";
 
 export default function useFetch(method, url, payload) {
@@ -14,9 +14,9 @@ export default function useFetch(method, url, payload) {
                 setIsLoading(true);
                 let response;
                 if (method === "GET") {
-                    response = await axios.request({method: method, url: url});
+                    response = await axiosInstance.request({method: method, url: url});
                 } else {
-                    response = await axios.request({method: method, url: url, data: payload});
+                    response = await axiosInstance.request({method: method, url: url, data: payload});
                 }
                 setResult(response.data);
                 setErrors([]);

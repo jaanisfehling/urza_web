@@ -2,9 +2,9 @@
 
 import useFetch from "@/hooks/useFetch";
 import Errors from "@/components/errors";
-import ArticlePreview from "@/components/articlepreview";
 import Navbar from "@/components/navbar";
 import ArticleList from "@/components/articlelist";
+import Article from "@/components/article";
 
 export default function Feed() {
     const {result, isLoading, errors} = useFetch("GET", "/news/article/");
