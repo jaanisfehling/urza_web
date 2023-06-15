@@ -4,7 +4,7 @@ import {clientError, connectionError, getErrorMessages} from "@/api/utils";
 
 export default function useFetch(method, url, payload) {
     const [success, setSuccess] = useState(false);
-    const [result, setResult] = useState();
+    const [result, setResult] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState([]);
 
