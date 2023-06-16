@@ -1,10 +1,10 @@
 "use client";
 
 import useFetch from "@/hooks/useFetch";
-import Errors from "@/components/errors";
-import Navbar from "@/components/navbar";
-import ArticleList from "@/components/articlelist";
-import Article from "@/components/article";
+import Errors from "@/components/Errors";
+import Navbar from "@/components/Navbar";
+import ArticleList from "@/components/ArticleList";
+import Article from "@/components/Article";
 
 export default function Feed() {
     const {result, isLoading, errors} = useFetch("GET", "/news/article/");

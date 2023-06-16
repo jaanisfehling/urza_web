@@ -1,4 +1,4 @@
-import Indicator from "./indicator";
+import Indicator from "./Indicator";
 
 export default function Button({text, className, isLoading, onClick}) {
     if (isLoading) {

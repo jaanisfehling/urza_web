@@ -1,10 +1,10 @@
 "use client";
 
 import {useState} from "react";
-import Errors from "@/components/errors";
+import Errors from "@/components/Errors";
 import useFetch from "@/hooks/useFetch";
 import {useRouter} from "next/navigation";
-import Button from "@/components/button";
+import Button from "@/components/Button";
 
 export default function Signup() {
     const [payload, setPayload] = useState(null);

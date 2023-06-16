@@ -1,8 +1,8 @@
 "use client";
 
 import useFetch from "@/hooks/useFetch";
-import Button from "@/components/button";
-import Errors from "@/components/errors";
+import Button from "@/components/Button";
+import Errors from "@/components/Errors";
 import { useState } from "react";
 
 export default function Welcome() {

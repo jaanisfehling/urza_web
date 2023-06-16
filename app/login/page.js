@@ -3,9 +3,9 @@
 import {useState} from "react";
 import {clientError, connectionError} from "@/api/utils";
 import {useRouter} from "next/navigation";
-import Errors from "@/components/errors";
+import Errors from "@/components/Errors";
 import useFetch from "@/hooks/useFetch";
-import Button from "@/components/button";
+import Button from "@/components/Button";
 
 export default function Login() {
     const [payload, setPayload] = useState(null);

@@ -9,7 +9,7 @@ export default function useFetch(method, url, payload) {
     const [errors, setErrors] = useState([]);
 
     useEffect(() => {
-        async function fetch() {
+        async function performFetch() {
             try {
                 setIsLoading(true);
                 let response;
@@ -34,7 +34,7 @@ export default function useFetch(method, url, payload) {
             }
         }
         if (payload || method === "GET") {
-            fetch();
+            performFetch();
         }
     }, [payload]);
     return {success, result, isLoading, errors, setSuccess, setResult, setIsLoading, setErrors};

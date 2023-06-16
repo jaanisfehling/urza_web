@@ -8,7 +8,7 @@ export const axiosInstance = axios.create({
 
 async function newAccessToken() {
     try {
-        const response = await axiosPublic.post("/account/jwt/refresh/", {
+        const response = await axiosInstance.post("/account/jwt/refresh/", {
             refresh: localStorage.getItem("refresh"),
         });
         const result = response.data;
@@ -26,6 +26,7 @@ const maxAge = 250;
 const memNewAccessToken = mem(newAccessToken, {maxAge});
 
 axiosInstance.interceptors.request.use(function (config) {
+    console.log("request intercepted");
     const access = localStorage.getItem("access");
     if (access) {
         config.headers.Authorization = `Bearer ${access}`;
@@ -33,16 +34,16 @@ axiosInstance.interceptors.request.use(function (config) {
     return config;
 });
 
-axios.interceptors.response.use((response) => response, async function (error) {
-      const config = error?.config;
-      if (error?.response?.status === 401 && !config?.sent) {
-        config.sent = true;
+axiosInstance.interceptors.response.use((response) => response, async function (error) {
+    console.log("response intercepted");
+    const originalRequest  = error?.config ;
+    if (error?.response?.status === 401 && !originalRequest ?.sent) {
+        originalRequest .sent = true;
         const access = await memNewAccessToken();
         if (access) {
-            config.headers.Authorization = `Bearer ${access}`;
+            originalRequest .headers.Authorization = `Bearer ${access}`;
         }
-        return axios(config);
-      }
-      return Promise.reject(error);
+        return axiosInstance(originalRequest);
     }
-);
+    return Promise.reject(error);
+});

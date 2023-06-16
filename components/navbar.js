@@ -6,7 +6,7 @@ export default function Navbar() {
     if (localStorage.getItem("access")) {
         return (
             <div className="flex items-center px-4 justify-between bg-white sticky h-14 w-full border-std-blue border-b-2">
-                <Link href="/feed" className="text-2xl font-normal text-black">
+                <Link href="/" className="text-2xl font-normal text-black">
                     Urza
                 </Link>
                 <div className="flex space-x-2">
@@ -23,7 +23,7 @@ export default function Navbar() {
     else {
         return (
             <div className="flex items-center px-4 justify-between bg-white sticky h-14 w-full border-std-blue border-b-2">
-                <Link href="" className="text-2xl font-normal text-std-blue">
+                <Link href="/" className="text-2xl font-normal text-std-blue">
                     Urza
                 </Link>
                 <div className="flex space-x-2">
