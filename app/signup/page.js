@@ -42,12 +42,12 @@ export default function Signup() {
     return (
         <div className="min-h-screen bg-white flex">
             <div className="m-auto p-4 w-80 space-y-5 flex flex-col">
-                <Errors errors={errors} />
+                <Errors errors={errors}/>
                 <form onSubmit={handleSubmit} className="flex flex-col space-y-5">
                     <input className="h-10 border-2 p-0.5 rounded-sm" id="email" type="email" placeholder="Email" required/>
                     <input className="h-10 border-2 p-0.5 rounded-sm" minLength="8" id="password" type="password" placeholder="Password" required/>
                     <input className="h-10 border-2 p-0.5 rounded-sm" minLength="8" id="confirmPassword" type="password" placeholder="Confirm Password" required/>
-                    <Button className="p-1.5 m-auto h-10 w-24" text="Sign Up" isLoading={isLoading} />
+                    <Button className="p-1.5 m-auto h-10 w-24" text="Sign Up" isLoading={isLoading}/>
                 </form>
             </div>
         </div>

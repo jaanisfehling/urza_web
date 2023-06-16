@@ -12,7 +12,7 @@ export default function Welcome() {
     return (
         <div className="bg-white min-h-screen flex">
             <div className="m-auto p-4 w-80 space-y-5 flex flex-col">
-                <Errors errors={errors} />
+                <Errors errors={errors}/>
                 <p>We have sent you an email containing a link to verify your account</p>
                 <p>Please verify your email before you can proceed</p>
                 <Button className="p-1.5 m-auto h-10 w-24" text="Resend" isLoading={isLoading} onClick={() => {setPayload({email: sessionStorage.getItem("email")})}}/>
