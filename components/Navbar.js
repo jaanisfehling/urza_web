@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function Navbar() {
     if (localStorage.getItem("access")) {
         return (
-            <div className="flex items-center mb-2 px-4 justify-between bg-white sticky h-14 w-full border-std-blue border-b-2">
+            <div className="flex items-center px-4 justify-between bg-white sticky h-14 w-full border-black border-b-2">
                 <Link href="/" className="text-2xl font-normal text-black">
                     Urza
                 </Link>
@@ -22,7 +22,7 @@ export default function Navbar() {
     }
     else {
         return (
-            <div className="flex items-center mb-2 px-4 justify-between bg-white sticky h-14 w-full border-std-blue border-b-2">
+            <div className="flex items-center px-4 justify-between bg-white sticky h-14 w-full border-black border-b-2">
                 <Link href="/" className="text-2xl font-normal text-std-blue">
                     Urza
                 </Link>

@@ -1,6 +1,6 @@
 export default function ArticleCard({className, article, onClick}) {
     return (
-        <button onClick={onClick} className={`${className} flex flex-col m-2 p-2 border-2 border-std-blue`}>
+        <button onClick={onClick} className={`${className} m-2 p-2 rounded-sm border-2 border-black`}>
             <span>{article.title}</span>
             <span>{article.excerpt}</span>
         </button>
