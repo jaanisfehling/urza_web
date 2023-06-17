@@ -4,8 +4,8 @@ import { useState } from "react";
 import useFetch from "@/hooks/useFetch";
 import Errors from "@/components/Errors";
 import Navbar from "@/components/Navbar";
-import ArticleList from "@/components/ArticleList";
 import Article from "@/components/Article";
+import ArticleCard from "@/components/ArticleCard";
 
 export default function Feed() {
     const {result, isLoading, errors} = useFetch("GET", "/news/article/");
@@ -15,9 +15,11 @@ export default function Feed() {
         <div className="flex flex-col bg-white min-h-screen">
             <Navbar/>
             <Errors errors={errors}/>
-            <div className="grid grid-cols-2 gap-4">
-                <ArticleList articles={result} setter={setArticle}/>
-                <Article article={article}/>
+            <div className="flex">
+                <div className="">
+                    {result?.map(function(e, i) {return <ArticleCard article={e} key={i} onClick={() => setArticle(e)}/>})}
+                </div>
+                <Article className="" article={article}/>
             </div>
         </div>
     )
