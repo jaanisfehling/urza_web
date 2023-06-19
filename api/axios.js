@@ -22,7 +22,7 @@ async function newAccessToken() {
         localStorage.removeItem("refresh");
     }
 }
-const maxAge = 250;
+const maxAge = 10;
 const memNewAccessToken = mem(newAccessToken, {maxAge});
 
 axiosInstance.interceptors.request.use(function (config) {
@@ -39,7 +39,7 @@ axiosInstance.interceptors.response.use((response) => response, async function (
         originalRequest .sent = true;
         const access = await memNewAccessToken();
         if (access) {
-            originalRequest .headers.Authorization = `Bearer ${access}`;
+            originalRequest.headers.Authorization = `Bearer ${access}`;
         }
         return axiosInstance(originalRequest);
     }

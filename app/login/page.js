@@ -36,7 +36,7 @@ export default function Login() {
     }
 
     return (
-        <div className="min-h-screen bg-white flex">
+        <div className="min-h-screen bg-white dark:bg-gray-900 flex">
             <div className="m-auto p-4 w-80 space-y-5 flex flex-col">
                 <Errors errors={errors}/>
                 <form onSubmit={handleSubmit} className="flex flex-col space-y-5">

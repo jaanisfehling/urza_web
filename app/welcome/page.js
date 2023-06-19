@@ -10,7 +10,7 @@ export default function Welcome() {
     const {errors, isLoading} = useFetch("POST", "/account/users/resend_activation/", payload);
 
     return (
-        <div className="bg-white min-h-screen flex">
+        <div className="bg-white dark:bg-gray-900 min-h-screen flex">
             <div className="m-auto p-4 w-80 space-y-5 flex flex-col">
                 <Errors errors={errors}/>
                 <p>We have sent you an email containing a link to verify your account</p>
