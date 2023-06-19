@@ -12,10 +12,10 @@ export default function Dashboard() {
                 <Link href="/" onClick={() => {localStorage.removeItem("access"); localStorage.removeItem("refresh")}} className="flex items-center h-8 px-2.5 bg-std-blue rounded-sm hover:bg-std-blue-hover text-white font-normal text-base">Logout</Link>
             </div>
             <div className="mx-6 grid grid-cols-2 gap-4">
-                <div className="p-24 rounded-sm border-2 border-std-blue"></div>
-                <div className="p-24 rounded-sm border-2 border-std-blue"></div>
-                <div className="p-24 rounded-sm border-2 border-std-blue"></div>
-                <div className="p-24 rounded-sm border-2 border-std-blue"></div>
+                <div className="p-24 rounded-sm border-2 border-gray-700 dark:border-gray-700"></div>
+                <div className="p-24 rounded-sm border-2 border-gray-700 dark:border-gray-700"></div>
+                <div className="p-24 rounded-sm border-2 border-gray-700 dark:border-gray-700"></div>
+                <div className="p-24 rounded-sm border-2 border-gray-700 dark:border-gray-700"></div>
             </div>
         </div>
     )

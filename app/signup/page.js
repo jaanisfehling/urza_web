@@ -5,6 +5,7 @@ import Errors from "@/components/Errors";
 import useFetch from "@/hooks/useFetch";
 import {useRouter} from "next/navigation";
 import Button from "@/components/Button";
+import {clientError, connectionError} from "@/api/utils";
 
 export default function Signup() {
     const [payload, setPayload] = useState(null);
@@ -44,9 +45,9 @@ export default function Signup() {
             <div className="m-auto p-4 w-80 space-y-5 flex flex-col">
                 <Errors errors={errors}/>
                 <form onSubmit={handleSubmit} className="flex flex-col space-y-5">
-                    <input className="h-10 border-2 p-0.5 rounded-sm" id="email" type="email" placeholder="Email" required/>
-                    <input className="h-10 border-2 p-0.5 rounded-sm" minLength="8" id="password" type="password" placeholder="Password" required/>
-                    <input className="h-10 border-2 p-0.5 rounded-sm" minLength="8" id="confirmPassword" type="password" placeholder="Confirm Password" required/>
+                    <input className="h-10 border-2 p-0.5 rounded-sm dark:bg-gray-900 dark:border-gray-700" id="email" type="email" placeholder="Email" required/>
+                    <input className="h-10 border-2 p-0.5 rounded-sm dark:bg-gray-900 dark:border-gray-700" minLength="8" id="password" type="password" placeholder="Password" required/>
+                    <input className="h-10 border-2 p-0.5 rounded-sm dark:bg-gray-900 dark:border-gray-700" minLength="8" id="confirmPassword" type="password" placeholder="Confirm Password" required/>
                     <Button className="p-1.5 m-auto h-10 w-24" text="Sign Up" isLoading={isLoading}/>
                 </form>
             </div>

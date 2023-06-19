@@ -8,9 +8,10 @@ import Article from "@/components/Article";
 import ArticleCard from "@/components/ArticleCard";
 
 export default function Feed() {
-    const {result, isLoading, errors} = useFetch("GET", "/news/article/");
+    const {success, result, isLoading, errors} = useFetch("GET", "/news/article/");
     const [article, setArticle] = useState();
-    const [isLargeScreen, setIsLargeScreen] = useState(window.matchMedia("(min-width: 768px)").matches)
+    const [isLargeScreen, setIsLargeScreen] = useState(window.matchMedia("(min-width: 768px)").matches);
+    const [showSidebar, setShowSidebar] = useState(false);
 
     useEffect(() => {
         window
@@ -19,15 +20,20 @@ export default function Feed() {
     }, []);
     console.log(result)
 
+    if (success && article === undefined) {
+        setArticle(result?.[0]);
+    }
+
     return (
         <div className="flex flex-col bg-white dark:bg-gray-900 min-h-screen">
-            <Navbar/>
+            <Navbar showSidebar={!isLargeScreen} onSideBarClick={() => {setShowSidebar(!showSidebar)}}/>
             <Errors errors={errors}/>
-            <div className="flex relative">
-                {isLargeScreen && <div className="absolute fixed z-40 h-screen overflow-y-auto">
+            <div className="flex">
+                {isLargeScreen && <div className="fixed w-80 h-screen overflow-y-auto">
                     {result?.map(function(e, i) {return <ArticleCard article={e} key={i} onClick={() => setArticle(e)}/>})}
                 </div>}
-                <Article className="md:ml-64 min-w-full min-h-full" article={article}/>
+                {!isLargeScreen && showSidebar && <></>}
+                <Article className="md:ml-80 overflow-x-auto" article={article}/>
             </div>
         </div>
     )
