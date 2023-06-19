@@ -24,15 +24,18 @@ export default function Feed() {
         setArticle(result?.[0]);
     }
 
+    // TODO: Add cross to close sidebar
     return (
         <div className="flex flex-col bg-white dark:bg-gray-900 min-h-screen">
-            <Navbar showSidebar={!isLargeScreen} onSideBarClick={() => {setShowSidebar(!showSidebar)}}/>
+            <Navbar showTrigram={!isLargeScreen} onSideBarClick={() => {setShowSidebar(!showSidebar)}}/>
             <Errors errors={errors}/>
             <div className="flex">
                 {isLargeScreen && <div className="fixed w-80 h-screen overflow-y-auto">
                     {result?.map(function(e, i) {return <ArticleCard article={e} key={i} onClick={() => setArticle(e)}/>})}
                 </div>}
-                {!isLargeScreen && showSidebar && <></>}
+                {!isLargeScreen && showSidebar && <div className="fixed z-40 bg-white dark:bg-gray-900 h-screen overflow-y-auto">
+                    {result?.map(function(e, i) {return <ArticleCard article={e} key={i} onClick={() => setArticle(e)}/>})}
+                </div>}
                 <Article className="md:ml-80 overflow-x-auto" article={article}/>
             </div>
         </div>
