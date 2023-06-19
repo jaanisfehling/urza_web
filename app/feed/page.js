@@ -23,10 +23,10 @@ export default function Feed() {
             <Navbar/>
             <Errors errors={errors}/>
             <div className="flex relative">
-                {matches && <div className="absolute left-0 top-0 fixed z-40 w-1/6 h-screen overflow-y-auto">
+                {matches && <div className="absolute fixed z-40 h-screen overflow-y-auto">
                     {result?.map(function(e, i) {return <ArticleCard article={e} key={i} onClick={() => setArticle(e)}/>})}
                 </div>}
-                <Article className="w-5/6 right-0 top-0" article={article}/>
+                <Article className="ml-64 min-w-full min-h-full" article={article}/>
             </div>
         </div>
     )

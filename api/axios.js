@@ -21,12 +21,11 @@ async function newAccessToken() {
         localStorage.removeItem("access");
         localStorage.removeItem("refresh");
     }
-};
+}
 const maxAge = 250;
 const memNewAccessToken = mem(newAccessToken, {maxAge});
 
 axiosInstance.interceptors.request.use(function (config) {
-    console.log("request intercepted");
     const access = localStorage.getItem("access");
     if (access) {
         config.headers.Authorization = `Bearer ${access}`;
@@ -35,7 +34,6 @@ axiosInstance.interceptors.request.use(function (config) {
 });
 
 axiosInstance.interceptors.response.use((response) => response, async function (error) {
-    console.log("response intercepted");
     const originalRequest  = error?.config ;
     if (error?.response?.status === 401 && !originalRequest ?.sent) {
         originalRequest .sent = true;
