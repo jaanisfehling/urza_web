@@ -9,7 +9,7 @@ import ArticleCard from "@/components/ArticleCard";
 
 export default function Feed() {
     const {success, result, isLoading, errors} = useFetch("GET", "/news/article/");
-    const [article, setArticle] = useState();
+    const [article, setArticle] = useState(null);
     const [isLargeScreen, setIsLargeScreen] = useState(window.matchMedia("(min-width: 768px)").matches);
     const [showSidebar, setShowSidebar] = useState(false);
 
@@ -18,9 +18,8 @@ export default function Feed() {
             .matchMedia("(min-width: 768px)")
             .addEventListener('change', e => setIsLargeScreen(e.matches));
     }, []);
-    console.log(result)
 
-    if (success && article === undefined) {
+    if (success && article === null) {
         setArticle(result?.[0]);
     }
 
