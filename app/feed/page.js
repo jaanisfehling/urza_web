@@ -15,7 +15,7 @@ export default function Feed() {
 
     useEffect(() => {
         window
-            .matchMedia("(min-width: 768px)")
+            .matchMedia("(min-width: 1024px)")
             .addEventListener('change', e => setIsLargeScreen(e.matches));
     }, []);
 
@@ -29,13 +29,15 @@ export default function Feed() {
             <Navbar showTrigram={!isLargeScreen} onSideBarClick={() => {setShowSidebar(!showSidebar)}}/>
             <Errors errors={errors}/>
             <div className="flex">
-                {isLargeScreen && <div className="fixed w-80 h-screen overflow-y-auto">
-                    {result?.map(function(e, i) {return <ArticleCard article={e} key={i} onClick={() => setArticle(e)}/>})}
+                {isLargeScreen && <div className="flex flex-col fixed w-80 mt-1 h-full overflow-y-auto">
+                    {result?.map(function(e, i) {return <ArticleCard article={e} key={i} onClick={() => {setArticle(e)}}/>})}
+                    <button className="mb-20 mt-2 align-center underline" onClick={() => {}}>Load More</button>
                 </div>}
-                {!isLargeScreen && showSidebar && <div className="fixed z-40 bg-white dark:bg-gray-900 h-screen overflow-y-auto">
-                    {result?.map(function(e, i) {return <ArticleCard article={e} key={i} onClick={() => setArticle(e)}/>})}
+                {!isLargeScreen && showSidebar && <div className="flex flex-col fixed z-40 mt-1 bg-white dark:bg-gray-900 h-full overflow-y-auto">
+                    {result?.map(function(e, i) {return <ArticleCard article={e} key={i} onClick={() => {setArticle(e)}}/>})}
+                    <button className="mb-20 mt-2 align-center underline">Load More</button>
                 </div>}
-                <Article className="md:ml-80 overflow-x-auto" article={article}/>
+                <Article className="lg:ml-80 overflow-x-auto" article={article}/>
             </div>
         </div>
     )

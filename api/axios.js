@@ -8,9 +8,9 @@ export const axiosInstance = axios.create({
 
 async function newAccessToken() {
     try {
-        const response = await axiosInstance.post("/account/jwt/refresh/", {
+        const response = await axiosInstance.request({method: "POST", url: "/account/jwt/refresh/", data: {
             refresh: localStorage.getItem("refresh"),
-        });
+        }});
         const result = response.data;
         if (result) {
             localStorage.setItem("access", result.access);
