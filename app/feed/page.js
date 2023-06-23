@@ -41,8 +41,8 @@ export default function Feed() {
             <Navbar showTrigram={!isLargeScreen && !showSidebar} showCross={!isLargeScreen && showSidebar} onSideBarButtonClick={() => {setShowSidebar(!showSidebar)}}/>
             <Errors errors={errors}/>
             <div className="flex">
-                <ArticleList className="" articleList={articleList} setArticle={setSelectedArticle} onLoadMoreClick={() => {setNewsUrl(result?.next)}} isLargeScreen={isLargeScreen} showSidebar={showSidebar}/>
-                <Article className="lg:ml-80 overflow-x-auto" article={selectedArticle}/>
+                <ArticleList className="" articleList={articleList} selectedArticle={selectedArticle} setSelectedArticle={setSelectedArticle} onLoadMoreClick={() => {setNewsUrl(result?.next)}} isLargeScreen={isLargeScreen} showSidebar={showSidebar}/>
+                <Article className="lg:ml-80" article={selectedArticle}/>
             </div>
         </div>
     )
