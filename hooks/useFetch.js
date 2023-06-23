@@ -36,6 +36,6 @@ export default function useFetch(method, url, payload) {
         if (payload || method === "GET") {
             performFetch();
         }
-    }, [payload]);
+    }, [method, url, payload]);
     return {success, result, isLoading, errors, setSuccess, setResult, setIsLoading, setErrors};
 }

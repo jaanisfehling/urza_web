@@ -5,13 +5,16 @@ import useFetch from "@/hooks/useFetch";
 import Errors from "@/components/Errors";
 import Navbar from "@/components/Navbar";
 import Article from "@/components/Article";
-import ArticleCard from "@/components/ArticleCard";
+import ArticleList from "@/components/ArticleList";
 
 export default function Feed() {
-    const {success, result, isLoading, errors} = useFetch("GET", "/news/article/");
-    const [article, setArticle] = useState(null);
+    const [newsUrl, setNewsUrl] = useState("/news/article/");
+    const [articleList, setArticleList] = useState(null);
+    const [selectedArticle, setSelectedArticle] = useState(null);
     const [isLargeScreen, setIsLargeScreen] = useState(window.matchMedia("(min-width: 768px)").matches);
     const [showSidebar, setShowSidebar] = useState(false);
+
+    const {result, errors} = useFetch("GET", newsUrl);
 
     useEffect(() => {
         window
@@ -19,25 +22,27 @@ export default function Feed() {
             .addEventListener('change', e => setIsLargeScreen(e.matches));
     }, []);
 
-    if (success && article === null) {
-        setArticle(result?.[0]);
-    }
+    useEffect(() => {
+        if (articleList == null) {
+            setArticleList(result?.results);
+        } else {
+            setArticleList(articleList.concat(result?.results));
+        }
+    }, [result]);
 
-    // TODO: Add cross to close sidebar
+    useEffect(() => {
+        if (selectedArticle == null) {
+            setSelectedArticle(articleList?.[0]);
+        }
+    }, [articleList]);
+
     return (
         <div className="flex flex-col bg-white dark:bg-gray-900 min-h-screen">
-            <Navbar showTrigram={!isLargeScreen} onSideBarClick={() => {setShowSidebar(!showSidebar)}}/>
+            <Navbar showTrigram={!isLargeScreen && !showSidebar} showCross={!isLargeScreen && showSidebar} onSideBarButtonClick={() => {setShowSidebar(!showSidebar)}}/>
             <Errors errors={errors}/>
             <div className="flex">
-                {isLargeScreen && <div className="flex flex-col fixed w-80 mt-1 h-full overflow-y-auto">
-                    {result?.map(function(e, i) {return <ArticleCard article={e} key={i} onClick={() => {setArticle(e)}}/>})}
-                    <button className="mb-20 mt-2 align-center underline" onClick={() => {}}>Load More</button>
-                </div>}
-                {!isLargeScreen && showSidebar && <div className="flex flex-col fixed z-40 mt-1 bg-white dark:bg-gray-900 h-full overflow-y-auto">
-                    {result?.map(function(e, i) {return <ArticleCard article={e} key={i} onClick={() => {setArticle(e)}}/>})}
-                    <button className="mb-20 mt-2 align-center underline">Load More</button>
-                </div>}
-                <Article className="lg:ml-80 overflow-x-auto" article={article}/>
+                <ArticleList className="" articleList={articleList} setArticle={setSelectedArticle} onLoadMoreClick={() => {setNewsUrl(result?.next)}} isLargeScreen={isLargeScreen} showSidebar={showSidebar}/>
+                <Article className="lg:ml-80 overflow-x-auto" article={selectedArticle}/>
             </div>
         </div>
     )
