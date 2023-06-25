@@ -39,7 +39,7 @@ export default function Feed() {
     return (
         <div className="flex flex-col bg-white dark:bg-gray-900 min-h-screen">
             <Navbar showTrigram={!isLargeScreen && !showSidebar} showCross={!isLargeScreen && showSidebar} onSideBarButtonClick={() => {setShowSidebar(!showSidebar)}}/>
-            <Errors errors={errors}/>
+            <Errors className="sticky top-14" errors={errors}/>
             <div className="flex">
                 <ArticleList className="" articleList={articleList} selectedArticle={selectedArticle} setSelectedArticle={setSelectedArticle} onLoadMoreClick={() => {setNewsUrl(result?.next)}} isLargeScreen={isLargeScreen} showSidebar={showSidebar}/>
                 <Article className="lg:ml-80" article={selectedArticle}/>

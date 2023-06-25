@@ -14,7 +14,7 @@ export default function Signup() {
 
     async function handleSubmit(event) {
         event.preventDefault();
-        if (event.target.password.value != event.target.confirmPassword.value) {
+        if (event.target.password.value !== event.target.confirmPassword.value) {
             setErrors(["The two password fields didn't match"]);
             return;
         }
@@ -36,7 +36,7 @@ export default function Signup() {
         });
     }
     if (success) {
-        sessionStorage.setItem("email", result.email)
+        sessionStorage.setItem("email", result.email);
         router.push("/welcome");
     }
 

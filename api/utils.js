@@ -1,3 +1,24 @@
+export function setTokens(result) {
+    localStorage.setItem("access", result.access);
+    localStorage.setItem("refresh", result.refresh);
+    let refreshExpiry = new Date();
+    refreshExpiry.setDate(refreshExpiry.getDate() + 1);
+    localStorage.setItem("refreshExpiry", refreshExpiry.toISOString());
+}
+
+export function refreshTokenValid() {
+    if (typeof document !== "undefined") {
+        const refreshExpiryISOString = localStorage.getItem("refreshExpiry");
+        if (refreshExpiryISOString) {
+            const refreshExpiry = new Date(refreshExpiryISOString);
+            if (refreshExpiry > new Date()) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 export function capFirstLetterAndRemoveStop(string) {
     if (string.charAt((string.length-1)) === ".") {
         string = string.substring(0, string.length-1);

@@ -1,7 +1,7 @@
 "use client";
 
 import {useState} from "react";
-import {clientError, connectionError} from "@/api/utils";
+import {clientError, connectionError, setTokens} from "@/api/utils";
 import {useRouter} from "next/navigation";
 import Errors from "@/components/Errors";
 import useFetch from "@/hooks/useFetch";
@@ -30,8 +30,7 @@ export default function Login() {
         });
     }
     if (success) {
-        localStorage.setItem("access", result.access);
-        localStorage.setItem("refresh", result.refresh);
+        setTokens(result);
         router.push("/feed");
     }
 

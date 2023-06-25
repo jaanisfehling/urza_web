@@ -1,8 +1,7 @@
-"use client";
-
 import Link from "next/link";
 
 export default function Navbar({showTrigram, showCross, onSideBarButtonClick}) {
+
     if (typeof document !== "undefined" && localStorage.getItem("access")) {
         let mainLogoButton;
         if (showTrigram) {
@@ -30,7 +29,7 @@ export default function Navbar({showTrigram, showCross, onSideBarButtonClick}) {
     else {
         return (
             <div className="sticky top-0 flex items-center px-4 justify-between bg-white dark:bg-gray-900 sticky h-14 w-full border-gray-700 dark:border-gray-700 border-b-2">
-                <Link href="/" className="text-2xl font-normal text-std dark:text-white-blue">
+                <Link href="/" className="text-2xl font-normal text-black dark:text-white">
                     Urza
                 </Link>
                 <div className="flex space-x-2">

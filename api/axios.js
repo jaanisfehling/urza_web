@@ -1,5 +1,6 @@
 import axios from 'axios';
 import mem from "mem";
+import {refreshTokenValid, setTokens} from "@/api/utils";
 
 export const axiosInstance = axios.create({
     baseURL: "http://localhost:8000",
@@ -13,7 +14,7 @@ async function newAccessToken() {
         }});
         const result = response.data;
         if (result) {
-            localStorage.setItem("access", result.access);
+            setTokens(result);
             return result.access;
         }
     } 
@@ -25,7 +26,12 @@ async function newAccessToken() {
 const maxAge = 10;
 const memNewAccessToken = mem(newAccessToken, {maxAge});
 
-axiosInstance.interceptors.request.use(function (config) {
+axiosInstance.interceptors.request.use(async function (config) {
+    if (refreshTokenValid()) {
+        const access = await memNewAccessToken();
+        config.headers.Authorization = `Bearer ${access}`;
+        return config;
+    }
     const access = localStorage.getItem("access");
     if (access) {
         config.headers.Authorization = `Bearer ${access}`;
@@ -33,15 +39,15 @@ axiosInstance.interceptors.request.use(function (config) {
     return config;
 });
 
-axiosInstance.interceptors.response.use((response) => response, async function (error) {
-    const originalRequest  = error?.config ;
-    if (error?.response?.status === 401 && !originalRequest ?.sent) {
-        originalRequest .sent = true;
-        const access = await memNewAccessToken();
-        if (access) {
-            originalRequest.headers.Authorization = `Bearer ${access}`;
-        }
-        return axiosInstance(originalRequest);
-    }
-    return Promise.reject(error);
-});
+// axiosInstance.interceptors.response.use((response) => response, async function (error) {
+//     const originalRequest  = error?.config ;
+//     if (error?.response?.status === 401 && !originalRequest?.sent) {
+//         originalRequest.sent = true;
+//         const access = await memNewAccessToken();
+//         if (access) {
+//             originalRequest.headers.Authorization = `Bearer ${access}`;
+//         }
+//         return axiosInstance(originalRequest);
+//     }
+//     return Promise.reject(error);
+// });
