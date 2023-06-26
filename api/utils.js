@@ -1,23 +1,26 @@
-export function setTokens(result) {
+export function login(result) {
     localStorage.setItem("access", result.access);
     localStorage.setItem("refresh", result.refresh);
-    let refreshExpiry = new Date();
-    refreshExpiry.setDate(refreshExpiry.getDate() + 1);
+
+    const accessExpiry = new Date();
+    accessExpiry.setSeconds(accessExpiry.getSeconds() + 5);
+    localStorage.setItem("accessExpiry", accessExpiry.toISOString());
+
+    const refreshExpiry = new Date();
+    refreshExpiry.setSeconds(refreshExpiry.getSeconds() + 25);
     localStorage.setItem("refreshExpiry", refreshExpiry.toISOString());
 }
 
-export function refreshTokenValid() {
-    if (typeof document !== "undefined") {
-        const refreshExpiryISOString = localStorage.getItem("refreshExpiry");
-        if (refreshExpiryISOString) {
-            const refreshExpiry = new Date(refreshExpiryISOString);
-            if (refreshExpiry > new Date()) {
-                return true;
-            }
-        }
-    }
-    return false;
+export function logout() {
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+    localStorage.removeItem("accessExpiry");
+    localStorage.removeItem("refreshExpiry");
 }
+
+export const accessTokenValid = typeof document !== "undefined" && new Date(localStorage.getItem("accessExpiry")) > new Date()
+
+export const refreshTokenValid = typeof document !== "undefined" && new Date(localStorage.getItem("refreshExpiry")) > new Date()
 
 export function capFirstLetterAndRemoveStop(string) {
     if (string.charAt((string.length-1)) === ".") {

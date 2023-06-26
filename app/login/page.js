@@ -1,7 +1,7 @@
 "use client";
 
-import {useState} from "react";
-import {clientError, connectionError, setTokens} from "@/api/utils";
+import {useEffect, useState} from "react";
+import {clientError, connectionError, login} from "@/api/utils";
 import {useRouter} from "next/navigation";
 import Errors from "@/components/Errors";
 import useFetch from "@/hooks/useFetch";
@@ -9,7 +9,7 @@ import Button from "@/components/Button";
 
 export default function Login() {
     const [payload, setPayload] = useState(null);
-    const {success, result, isLoading, errors} = useFetch("POST", "/account/jwt/", payload);
+    const {result, isLoading, errors} = useFetch("POST", "/account/jwt/", payload);
     const router = useRouter();
 
     async function handleSubmit(event) {
@@ -29,10 +29,13 @@ export default function Login() {
             }
         });
     }
-    if (success) {
-        setTokens(result);
-        router.push("/feed");
-    }
+
+    useEffect(() => {
+        if (result) {
+            login(result);
+            router.push("/feed");
+        }
+    }, [result]);
 
     return (
         <div className="min-h-screen bg-white dark:bg-gray-900 flex">

@@ -1,15 +1,15 @@
 "use client";
 
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Errors from "@/components/Errors";
 import useFetch from "@/hooks/useFetch";
 import {useRouter} from "next/navigation";
 import Button from "@/components/Button";
-import {clientError, connectionError} from "@/api/utils";
+import {clientError, connectionError, login} from "@/api/utils";
 
 export default function Signup() {
     const [payload, setPayload] = useState(null);
-    const {success, result, isLoading, errors, setErrors} = useFetch("POST", "/account/users/", payload);
+    const {result, isLoading, errors, setErrors} = useFetch("POST", "/account/users/", payload);
     const router = useRouter();
 
     async function handleSubmit(event) {
@@ -35,10 +35,14 @@ export default function Signup() {
             }
         });
     }
-    if (success) {
-        sessionStorage.setItem("email", result.email);
-        router.push("/welcome");
-    }
+
+    useEffect(() => {
+        if (result) {
+            sessionStorage.setItem("email", result.email);
+            router.push("/welcome");
+        }
+    }, [result]);
+
 
     return (
         <div className="min-h-screen bg-white dark:bg-gray-900 flex">

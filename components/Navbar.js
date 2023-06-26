@@ -1,8 +1,9 @@
 import Link from "next/link";
+import {refreshTokenValid} from "@/api/utils";
 
 export default function Navbar({showTrigram, showCross, onSideBarButtonClick}) {
 
-    if (typeof document !== "undefined" && localStorage.getItem("access")) {
+    if (refreshTokenValid) {
         let mainLogoButton;
         if (showTrigram) {
             mainLogoButton = <button onClick={onSideBarButtonClick} className="px-2.5 rounded-sm bg-white dark:bg-gray-900 text-black dark:text-white text-2xl">☰</button>;
