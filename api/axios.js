@@ -27,7 +27,7 @@ const maxAge = 10;
 const memNewAccessToken = mem(newAccessToken, {maxAge});
 
 axiosInstance.interceptors.request.use(async function (config) {
-    if (refreshTokenValid()) {
+    if (!refreshTokenValid()) {
         const access = await memNewAccessToken();
         config.headers.Authorization = `Bearer ${access}`;
         return config;
@@ -39,15 +39,15 @@ axiosInstance.interceptors.request.use(async function (config) {
     return config;
 });
 
-// axiosInstance.interceptors.response.use((response) => response, async function (error) {
-//     const originalRequest  = error?.config ;
-//     if (error?.response?.status === 401 && !originalRequest?.sent) {
-//         originalRequest.sent = true;
-//         const access = await memNewAccessToken();
-//         if (access) {
-//             originalRequest.headers.Authorization = `Bearer ${access}`;
-//         }
-//         return axiosInstance(originalRequest);
-//     }
-//     return Promise.reject(error);
-// });
+axiosInstance.interceptors.response.use((response) => response, async function (error) {
+    const originalRequest  = error?.config ;
+    if (error?.response?.status === 401 && !originalRequest?.sent) {
+        originalRequest.sent = true;
+        const access = await memNewAccessToken();
+        if (access) {
+            originalRequest.headers.Authorization = `Bearer ${access}`;
+        }
+        return axiosInstance(originalRequest);
+    }
+    return Promise.reject(error);
+});
