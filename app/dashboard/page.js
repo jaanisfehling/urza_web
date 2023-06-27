@@ -3,8 +3,14 @@
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import {logout} from "@/api/utils";
+import { refreshTokenValid } from "@/api/utils";
+import { redirect } from "next/navigation";
 
 export default function Dashboard() {
+    if (!refreshTokenValid()) {
+        redirect("/login");
+    }
+
     return (
         <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col">
             <Navbar></Navbar>

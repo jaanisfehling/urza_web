@@ -6,8 +6,14 @@ import Errors from "@/components/Errors";
 import Navbar from "@/components/Navbar";
 import Article from "@/components/Article";
 import ArticleList from "@/components/ArticleList";
+import { refreshTokenValid } from "@/api/utils";
+import { redirect } from "next/navigation";
 
 export default function Feed() {
+    if (!refreshTokenValid()) {
+        redirect("/login");
+    }
+
     const [newsUrl, setNewsUrl] = useState("/news/article/");
     const [articleList, setArticleList] = useState(null);
     const [selectedArticle, setSelectedArticle] = useState(null);
