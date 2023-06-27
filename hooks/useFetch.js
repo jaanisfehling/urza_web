@@ -1,7 +1,6 @@
 import {useEffect, useState} from "react";
-import { axiosInstance } from "@/api/axios";
+import { axiosPrivate, axiosPublic } from "@/api/axios";
 import {clientError, connectionError, getErrorMessages} from "@/api/utils";
-import axios from "axios";
 
 export default function useFetch(method, url, payload) {
     const [result, setResult] = useState(null);
@@ -12,18 +11,15 @@ export default function useFetch(method, url, payload) {
         async function performFetch() {
             try {
                 setIsLoading(true);
-                let response;
 
                 let actualAxios;
                 if (url.endsWith("jwt/") || url.endsWith("users/")) {
-                    actualAxios = axios.create({
-                        baseURL: "http://localhost:8000",
-                        headers: {"Content-Type": "application/json"}
-                    });
+                    actualAxios = axiosPublic;
                 } else {
-                    actualAxios = axiosInstance;
+                    actualAxios = axiosPrivate;
                 }
 
+                let response;
                 if (method === "GET") {
                     response = await actualAxios.request({method: method, url: url});
                 } else {
