@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
-import { axiosPrivate, axiosPublic } from "@/api/axios";
+import {axiosPrivate, axiosPublic} from "@/api/axios";
 import {clientError, connectionError, getErrorMessages} from "@/api/utils";
 
-export default function useFetch(method, url, payload) {
+export default function useFetch(method: string, url: string, payload?: object) {
     const [result, setResult] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState([]);
