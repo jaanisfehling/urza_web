@@ -3,11 +3,13 @@ export function login(result) {
     localStorage.setItem("refresh", result.refresh);
 
     const accessExpiry = new Date();
-    accessExpiry.setSeconds(accessExpiry.getSeconds() + 8);
+    accessExpiry.setMinutes(accessExpiry.getMinutes() + 5);
+    accessExpiry.setSeconds(accessExpiry.getSeconds() - 10);
     localStorage.setItem("accessExpiry", accessExpiry.toISOString());
 
     const refreshExpiry = new Date();
-    refreshExpiry.setSeconds(refreshExpiry.getSeconds() + 28);
+    refreshExpiry.setDate(refreshExpiry.getDate() + 1);
+    refreshExpiry.setSeconds(refreshExpiry.getSeconds() - 10);
     localStorage.setItem("refreshExpiry", refreshExpiry.toISOString());
 }
 
@@ -19,11 +21,11 @@ export function logout() {
 }
 
 export function accessTokenValid() {
-    return typeof document !== "undefined" && new Date(localStorage.getItem("accessExpiry")) > new Date()
-} 
+    return new Date(localStorage.getItem("accessExpiry")) > new Date()
+}
 
 export function refreshTokenValid() {
-    return typeof document !== "undefined" && new Date(localStorage.getItem("refreshExpiry")) > new Date()
+    return new Date(localStorage.getItem("refreshExpiry")) > new Date()
 }
 
 export function capFirstLetterAndRemoveStop(string) {

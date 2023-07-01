@@ -7,7 +7,7 @@ import { refreshTokenValid } from "@/api/utils";
 import { redirect } from "next/navigation";
 
 export default function Dashboard() {
-    if (!refreshTokenValid()) {
+    if (typeof document !== "undefined" && !refreshTokenValid()) {
         redirect("/login");
     }
 

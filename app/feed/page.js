@@ -10,7 +10,7 @@ import { refreshTokenValid } from "@/api/utils";
 import { redirect } from "next/navigation";
 
 export default function Feed() {
-    if (!refreshTokenValid()) {
+    if (typeof document !== "undefined" && !refreshTokenValid()) {
         redirect("/login");
     }
 
