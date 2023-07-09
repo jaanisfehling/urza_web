@@ -1,7 +1,7 @@
 import axios from "axios";
 import pMemoize from "p-memoize";
 import ExpiryMap from "expiry-map";
-import {accessTokenValid, login, logout, refreshTokenValid} from "@/api/utils";
+import {getAccessToken, memNewAccessToken} from "@/api/utils";
 
 export const axiosPrivate = axios.create({
     baseURL: "http://localhost:8000",
@@ -13,40 +13,8 @@ export const axiosPublic = axios.create({
     headers: {"Content-Type": "application/json"}
 });
 
-async function newAccessToken() {
-    if (typeof document !== "undefined" && !refreshTokenValid()) {
-        logout();
-        return;
-    }
-    try {
-        const response = await axiosPublic.request({method: "POST", url: "/account/jwt/refresh/", data: {
-            refresh: localStorage.getItem("refresh"),
-        }});
-        const result = response.data;
-        if (result) {
-            localStorage.setItem("access", result.access);
-
-            const accessExpiry = new Date();
-            accessExpiry.setSeconds(accessExpiry.getSeconds() + 8);
-            localStorage.setItem("accessExpiry", accessExpiry.toISOString());
-
-            return result.access;
-        }
-    }
-    catch (error) {
-        logout();
-    }
-}
-const cache = new ExpiryMap(2000);
-const memNewAccessToken = pMemoize(newAccessToken, {cache});
-
 axiosPrivate.interceptors.request.use(async function (config) {
-    let access;
-    if (accessTokenValid()) {
-        access = localStorage.getItem("access");
-    } else {
-        access = await memNewAccessToken();
-    }
+    const access = await getAccessToken();
     if (access) {
         config.headers.Authorization = `Bearer ${access}`;
     }

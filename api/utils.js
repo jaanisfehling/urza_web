@@ -1,3 +1,7 @@
+import ExpiryMap from "expiry-map";
+import pMemoize from "p-memoize";
+import {axiosPublic} from "@/api/axios";
+
 export function login(result) {
     localStorage.setItem("access", result.access);
     localStorage.setItem("refresh", result.refresh);
@@ -26,6 +30,41 @@ export function accessTokenValid() {
 
 export function refreshTokenValid() {
     return new Date(localStorage.getItem("refreshExpiry")) > new Date()
+}
+
+export async function newAccessToken() {
+    if (typeof document !== "undefined" && !refreshTokenValid()) {
+        logout();
+        return;
+    }
+    try {
+        const response = await axiosPublic.request({method: "POST", url: "/account/jwt/refresh/", data: {
+                refresh: localStorage.getItem("refresh"),
+            }});
+        const result = response.data;
+        if (result) {
+            localStorage.setItem("access", result.access);
+
+            const accessExpiry = new Date();
+            accessExpiry.setSeconds(accessExpiry.getSeconds() + 8);
+            localStorage.setItem("accessExpiry", accessExpiry.toISOString());
+
+            return result.access;
+        }
+    }
+    catch (error) {
+        logout();
+    }
+}
+const cache = new ExpiryMap(2000);
+export const memNewAccessToken = pMemoize(newAccessToken, {cache});
+
+export async function getAccessToken() {
+    if (accessTokenValid()) {
+        return localStorage.getItem("access");
+    } else {
+        return await memNewAccessToken();
+    }
 }
 
 export function capFirstLetterAndRemoveStop(string) {

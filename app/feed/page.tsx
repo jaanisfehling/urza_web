@@ -8,19 +8,22 @@ import Article from "@/components/Article";
 import ArticleList from "@/components/ArticleList";
 import { refreshTokenValid } from "@/api/utils";
 import { redirect } from "next/navigation";
+import useWebsocket from "@/hooks/useWeboscket";
 
 export default function Feed() {
     if (typeof document !== "undefined" && !refreshTokenValid()) {
         redirect("/login");
     }
-
-    const [newsUrl, setNewsUrl] = useState("/news/article/");
-    const [articleList, setArticleList] = useState(null);
-    const [selectedArticle, setSelectedArticle] = useState(null);
     const [isLargeScreen, setIsLargeScreen] = useState(window.matchMedia("(min-width: 768px)").matches);
     const [showSidebar, setShowSidebar] = useState(false);
 
+    const [newsUrl, setNewsUrl] = useState<string>("/news/article/");
+    const [articleList, setArticleList] = useState(null);
+    const [selectedArticle, setSelectedArticle] = useState(null);
     const {result, errors} = useFetch("GET", newsUrl);
+
+    const [wsUrl, setWsUrl] = useState<string>();
+    const {messages, wsErrors} = useWebsocket(wsUrl);
 
     useEffect(() => {
         window
@@ -31,6 +34,9 @@ export default function Feed() {
     useEffect(() => {
         if (articleList == null) {
             setArticleList(result?.results);
+            if (result?.can_stream_articles) {
+                setWsUrl("/news/");
+            }
         } else {
             setArticleList(articleList.concat(result?.results));
         }
