@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import * as querystring from "querystring";
 import {getAccessToken} from "@/api/utils";
 
-export default async function useWebsocket(url: string) {
+export default async function useWebsocket(url: string | undefined) {
     const [messages, setMessages] = useState([]);
     const [errors, setErrors] = useState([]);
 
