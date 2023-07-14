@@ -9,7 +9,7 @@ export default async function useWebsocket(url: string) {
     useEffect(() => {
         async function establishConnection() {
             const baseUrl = "ws://localhost:8000"
-            const queryString = `?token=${await getAccessToken()}`;
+            const queryString = `?bearer=${await getAccessToken()}`;
             const ws = new WebSocket(baseUrl + url + queryString);
             ws.onmessage = (event) => {
                 setMessages([event.data, ...messages]);
