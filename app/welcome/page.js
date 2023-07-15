@@ -4,6 +4,7 @@ import useFetch from "@/hooks/useFetch";
 import Button from "@/components/Button";
 import Errors from "@/components/Errors";
 import { useState } from "react";
+import ResendActivationButton from "@/components/ResendActivationButton";
 
 export default function Welcome() {
     const [payload, setPayload] = useState();
@@ -15,7 +16,7 @@ export default function Welcome() {
                 <Errors errors={errors}/>
                 <p>We have sent you an email containing a link to verify your account</p>
                 <p>Please verify your email before you can proceed</p>
-                <Button className="p-1.5 m-auto h-10 w-24" text="Resend" isLoading={isLoading} onClick={() => {setPayload({email: sessionStorage.getItem("email")})}}/>
+                <ResendActivationButton isLoading={isLoading} setPayload={setPayload}/>
             </div>
         </div>
     )

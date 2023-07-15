@@ -15,6 +15,11 @@ export function login(result) {
     refreshExpiry.setDate(refreshExpiry.getDate() + 1);
     refreshExpiry.setSeconds(refreshExpiry.getSeconds() - 10);
     localStorage.setItem("refreshExpiry", refreshExpiry.toISOString());
+
+    // We store the users email in localstorage after signup
+    // so they can re-send activation emails in new sessions.
+    // After successful login we can remove the email
+    localStorage.removeItem("email");
 }
 
 export function logout() {
