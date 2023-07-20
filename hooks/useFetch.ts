@@ -44,5 +44,6 @@ export default function useFetch(method: string, url: string, payload?: object) 
             performFetch();
         }
     }, [method, url, payload]);
+    
     return {result, isLoading, errors, setResult, setIsLoading, setErrors};
 }

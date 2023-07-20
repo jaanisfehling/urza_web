@@ -8,7 +8,7 @@ import Article from "@/components/Article";
 import ArticleList from "@/components/ArticleList";
 import { refreshTokenValid } from "@/api/utils";
 import { redirect } from "next/navigation";
-import useWebsocket from "@/hooks/useWeboscket";
+import useWebsocket from "@/hooks/useWebSocket";
 
 export default function Feed() {
     if (typeof document !== "undefined" && !refreshTokenValid()) {
@@ -17,13 +17,13 @@ export default function Feed() {
     const [isLargeScreen, setIsLargeScreen] = useState(window.matchMedia("(min-width: 768px)").matches);
     const [showSidebar, setShowSidebar] = useState(false);
 
-    const [newsUrl, setNewsUrl] = useState<string>("/news/article/");
+    const [newsUrl, setNewsUrl] = useState<string>("/news/article/?get_stream_article_perm=true");
     const [articleList, setArticleList] = useState(null);
     const [selectedArticle, setSelectedArticle] = useState(null);
     const {result, errors} = useFetch("GET", newsUrl);
 
     const [wsUrl, setWsUrl] = useState<string>();
-    const {messages, wsErrors} = useWebsocket(wsUrl);
+    const {messages, errors: wsErrors} = useWebsocket(wsUrl);
 
     useEffect(() => {
         window
