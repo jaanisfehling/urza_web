@@ -3,6 +3,7 @@ import {axiosPrivate, axiosPublic} from "@/api/axios";
 import {clientError, connectionError, getErrorMessages} from "@/api/utils";
 
 export default function useFetch(method: string, url: string, payload?: object) {
+    const [success, setSuccess] = useState(false);
     const [result, setResult] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState([]);
@@ -29,6 +30,7 @@ export default function useFetch(method: string, url: string, payload?: object) 
                 setResult(response.data);
                 setErrors([]);
                 setIsLoading(false);
+                setSuccess(true);
             } catch (error) {
                 setIsLoading(false);
                 if (error.response) {
@@ -45,5 +47,5 @@ export default function useFetch(method: string, url: string, payload?: object) 
         }
     }, [method, url, payload]);
     
-    return {result, isLoading, errors, setResult, setIsLoading, setErrors};
+    return {success, result, isLoading, errors, setSuccess, setResult, setIsLoading, setErrors};
 }

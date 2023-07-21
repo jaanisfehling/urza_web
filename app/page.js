@@ -1,7 +1,15 @@
+"use client";
+
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
+import {redirect} from "next/navigation";
+import {refreshTokenValid} from "@/api/utils";
 
 export default function Home() {
+    if (typeof document !== "undefined" && !refreshTokenValid() && localStorage.getItem("email")) {
+        redirect("/welcome");
+    }
+
     return (
         <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col">
             <Navbar></Navbar>

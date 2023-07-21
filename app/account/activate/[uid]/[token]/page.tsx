@@ -9,10 +9,10 @@ import ResendActivationButton from "@/components/ResendActivationButton";
 
 export default function Actiate({params}: {params: {uid: string, token: string}}) {
     const [payload, setPayload] = useState();
-    const {result, errors} = useFetch("POST", "/account/users/activation/", payload);
+    const {success, result, errors} = useFetch("POST", "/account/users/activation/", payload);
 
     const [resendPayload, setResendPayload] = useState();
-    const {resendErrors, resendIsLoading} = useFetch("POST", "/account/users/resend_activation/", resendPayload);
+    const {errors: resendErrors, isLoading: resendIsLoading} = useFetch("POST", "/account/users/resend_activation/", resendPayload);
 
 
     useEffect(() => {
@@ -20,10 +20,10 @@ export default function Actiate({params}: {params: {uid: string, token: string}}
     }, [params]);
 
     useEffect(() => {
-        if (result && errors.length === 0) {
+        if (success) {
             redirect("/login");
         }
-    }, [result, errors]);
+    }, [success]);
 
     return (
         <div className="flex flex-col bg-white dark:bg-gray-900 min-h-screen">
