@@ -14,7 +14,7 @@ export default function Feed() {
     if (typeof document !== "undefined" && !refreshTokenValid()) {
         redirect("/login");
     }
-    const [isLargeScreen, setIsLargeScreen] = useState(window.matchMedia("(min-width: 768px)").matches);
+    const [isLargeScreen, setIsLargeScreen] = useState(window.matchMedia("(min-width: 1024px)").matches);
     const [showSidebar, setShowSidebar] = useState(false);
 
     const [newsUrl, setNewsUrl] = useState<string>("/news/article/?get_stream_article_perm=true");
