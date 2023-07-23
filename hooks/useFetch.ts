@@ -3,9 +3,9 @@ import {axiosPrivate, axiosPublic} from "@/api/axios";
 import {clientError, connectionError, badRequestError, getErrorMessages} from "@/api/utils";
 import { AxiosError } from 'axios';
 
-export default function useFetch(method: string, url: string, payload?: object) {
+export default function useFetch<T>(method: string, url: string, payload?: object) {
     const [success, setSuccess] = useState(false);
-    const [result, setResult] = useState(null);
+    const [result, setResult] = useState<T | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState<string[]>([]);
 

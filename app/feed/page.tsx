@@ -10,6 +10,16 @@ import { refreshTokenValid } from "@/api/utils";
 import { redirect } from "next/navigation";
 import useWebsocket from "@/hooks/useWebSocket";
 
+interface ArticleData {
+    url: string
+}
+
+interface ArticleResponse {
+    results: ArticleData[],
+    next: string,
+    can_stream_articles?: boolean
+}
+
 export default function Feed() {
     if (typeof document !== "undefined" && !refreshTokenValid()) {
         redirect("/login");
@@ -18,9 +28,9 @@ export default function Feed() {
     const [showSidebar, setShowSidebar] = useState(false);
 
     const [newsUrl, setNewsUrl] = useState<string>("/news/article/?get_stream_article_perm=true");
-    const [articleList, setArticleList] = useState(null);
-    const [selectedArticle, setSelectedArticle] = useState(null);
-    const {result, errors} = useFetch("GET", newsUrl);
+    const [articleList, setArticleList] = useState<ArticleData[] | null | undefined>(null);
+    const [selectedArticle, setSelectedArticle] = useState<ArticleData | null | undefined>(null);
+    const {result, errors} = useFetch<ArticleResponse>("GET", newsUrl);
 
     const [wsUrl, setWsUrl] = useState<string>();
     const {messages, errors: wsErrors} = useWebsocket(wsUrl);
@@ -38,7 +48,7 @@ export default function Feed() {
                 setWsUrl("/news/");
             }
         } else {
-            setArticleList(articleList.concat(result?.results));
+            setArticleList([...articleList, ...result?.results||[]]);
         }
     }, [result]);
 
@@ -53,7 +63,7 @@ export default function Feed() {
             <Navbar showTrigram={!isLargeScreen && !showSidebar} showCross={!isLargeScreen && showSidebar} onSideBarButtonClick={() => {setShowSidebar(!showSidebar)}}/>
             <Errors className="sticky top-14" errors={[...wsErrors||[], ...errors||[]]}/>
             <div className="flex">
-                <ArticleList className="" articleList={[...messages||[], ...articleList||[]]} selectedArticle={selectedArticle} setSelectedArticle={setSelectedArticle} onLoadMoreClick={() => {setNewsUrl(result?.next)}} isLargeScreen={isLargeScreen} showSidebar={showSidebar}/>
+                <ArticleList className="" articleList={[...messages||[], ...articleList||[]]} selectedArticle={selectedArticle} setSelectedArticle={setSelectedArticle} onLoadMoreClick={() => {setNewsUrl(result ? result?.next : "")}} isLargeScreen={isLargeScreen} showSidebar={showSidebar}/>
                 <Article className="lg:ml-80" article={selectedArticle}/>
             </div>
         </div>
