@@ -1,7 +1,7 @@
 import Link from "next/link";
 import {refreshTokenValid} from "@/api/utils";
 
-export default function Navbar({showTrigram, showCross, onSideBarButtonClick}) {
+export default function Navbar({showTrigram, showCross, onSideBarButtonClick}: {showTrigram?: boolean, showCross?: boolean, onSideBarButtonClick?: () => void}) {
 
     if (typeof document !== "undefined" && refreshTokenValid()) {
         let mainLogoButton;
