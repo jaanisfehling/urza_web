@@ -1,5 +1,7 @@
 "use client";
 
+import "/node_modules/react-grid-layout/css/styles.css";
+import "/node_modules/react-resizable/css/styles.css";
 import {useEffect, useState} from "react";
 import useFetch from "@/hooks/useFetch";
 import Errors from "@/components/Errors";
@@ -8,6 +10,7 @@ import ArticleList from "@/components/ArticleList";
 import { refreshTokenValid } from "@/api/utils";
 import { redirect } from "next/navigation";
 import useWebsocket from "@/hooks/useWebSocket";
+import GridLayout from "react-grid-layout";
 
 interface ArticleData {
     url: string
@@ -51,10 +54,14 @@ export default function Feed() {
     return (
         <div>
             <Errors className="sticky top-14" errors={[...wsErrors||[], ...errors||[]]}/>
-            <div className="flex">
-                <ArticleList articleList={[...messages||[], ...articleList||[]]} selectedArticle={selectedArticle} setSelectedArticle={setSelectedArticle} onLoadMoreClick={() => {setNewsUrl(result ? result?.next : "")}}/>
-                <Article className="ml-40 lg:ml-80" article={selectedArticle}/>
-            </div>
+            <GridLayout className="layout" cols={3} rowHeight={1200} width={1920}>
+                <div key="a">
+                    {articleList && articleList?.length > 0 && <ArticleList articleList={[...messages||[], ...articleList||[]]} selectedArticle={selectedArticle} setSelectedArticle={setSelectedArticle} onLoadMoreClick={() => {setNewsUrl(result ? result?.next : "")}}/>}
+                </div>
+                <div key="b">
+                    {selectedArticle && <Article className="ml-40 lg:ml-80" article={selectedArticle}/>}
+                </div>
+            </GridLayout>
         </div>
     )
 }
