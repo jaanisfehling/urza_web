@@ -71,10 +71,6 @@ body {
   }
 }
 
-#article-body {
-  /*text-align: center;*/
-}
-
 #article-body > p, li, i, table {
   margin-top: 1.5rem;
 }

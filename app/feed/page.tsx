@@ -10,26 +10,27 @@ import { refreshTokenValid } from "@/api/utils";
 import { redirect } from "next/navigation";
 import useWebsocket from "@/hooks/useWebSocket";
 
+interface ArticleData {
+    url: string
+}
+
+interface ArticleResponse {
+    results: ArticleData[],
+    next: string,
+    can_stream_articles?: boolean
+}
+
 export default function Feed() {
     if (typeof document !== "undefined" && !refreshTokenValid()) {
         redirect("/login");
     }
-    const [isLargeScreen, setIsLargeScreen] = useState(window.matchMedia("(min-width: 1024px)").matches);
-    const [showSidebar, setShowSidebar] = useState(false);
-
     const [newsUrl, setNewsUrl] = useState<string>("/news/article/?get_stream_article_perm=true");
-    const [articleList, setArticleList] = useState(null);
-    const [selectedArticle, setSelectedArticle] = useState(null);
-    const {result, errors} = useFetch("GET", newsUrl);
+    const [articleList, setArticleList] = useState<ArticleData[] | null | undefined>(null);
+    const [selectedArticle, setSelectedArticle] = useState<ArticleData | null | undefined>(null);
+    const {result, errors} = useFetch<ArticleResponse>("GET", newsUrl);
 
     const [wsUrl, setWsUrl] = useState<string>();
     const {messages, errors: wsErrors} = useWebsocket(wsUrl);
-
-    useEffect(() => {
-        window
-            .matchMedia("(min-width: 1024px)")
-            .addEventListener('change', e => setIsLargeScreen(e.matches));
-    }, []);
 
     useEffect(() => {
         if (articleList == null) {
@@ -38,7 +39,7 @@ export default function Feed() {
                 setWsUrl("/news/");
             }
         } else {
-            setArticleList(articleList.concat(result?.results));
+            setArticleList([...articleList, ...result?.results||[]]);
         }
     }, [result]);
 
@@ -50,11 +51,11 @@ export default function Feed() {
 
     return (
         <div className="flex flex-col bg-white dark:bg-gray-900 min-h-screen">
-            <Navbar showTrigram={!isLargeScreen && !showSidebar} showCross={!isLargeScreen && showSidebar} onSideBarButtonClick={() => {setShowSidebar(!showSidebar)}}/>
+            <Navbar/>
             <Errors className="sticky top-14" errors={[...wsErrors||[], ...errors||[]]}/>
             <div className="flex">
-                <ArticleList className="" articleList={[...messages||[], ...articleList||[]]} selectedArticle={selectedArticle} setSelectedArticle={setSelectedArticle} onLoadMoreClick={() => {setNewsUrl(result?.next)}} isLargeScreen={isLargeScreen} showSidebar={showSidebar}/>
-                <Article className="lg:ml-80" article={selectedArticle}/>
+                <ArticleList articleList={[...messages||[], ...articleList||[]]} selectedArticle={selectedArticle} setSelectedArticle={setSelectedArticle} onLoadMoreClick={() => {setNewsUrl(result ? result?.next : "")}}/>
+                <Article className="ml-40 lg:ml-80" article={selectedArticle}/>
             </div>
         </div>
     )

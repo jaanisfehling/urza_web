@@ -8,29 +8,25 @@ import {redirect} from "next/navigation";
 import ResendActivationButton from "@/components/ResendActivationButton";
 
 export default function Actiate({params}: {params: {uid: string, token: string}}) {
-    const [payload, setPayload] = useState();
+    const [payload, setPayload] = useState<{uid: string, token: string}>();
     const {success, result, errors} = useFetch("POST", "/account/users/activation/", payload);
-
-    const [resendPayload, setResendPayload] = useState();
-    const {errors: resendErrors, isLoading: resendIsLoading} = useFetch("POST", "/account/users/resend_activation/", resendPayload);
-
 
     useEffect(() => {
         setPayload(params);
     }, [params]);
 
     useEffect(() => {
-        if (success) {
+        if (success && errors.length === 0) {
             redirect("/login");
         }
-    }, [success]);
+    }, [result, errors]);
 
     return (
         <div className="flex flex-col bg-white dark:bg-gray-900 min-h-screen">
             <Navbar></Navbar>
             <div className="m-auto p-4 w-80 space-y-5 flex flex-col">
                 <Errors errors={errors}/>
-                {errors.length !== 0 ?? <ResendActivationButton isLoading={resendIsLoading} setPayload={setResendPayload}/>}
+                {errors.length !== 0 && <ResendActivationButton/>}
             </div>
         </div>
     )

@@ -1,12 +1,13 @@
 import {useEffect, useState} from "react";
 import {axiosPrivate, axiosPublic} from "@/api/axios";
-import {clientError, connectionError, getErrorMessages} from "@/api/utils";
+import {clientError, connectionError, badRequestError, getErrorMessages} from "@/api/utils";
+import { AxiosError } from 'axios';
 
-export default function useFetch(method: string, url: string, payload?: object) {
+export default function useFetch<T>(method: string, url: string, payload?: object) {
     const [success, setSuccess] = useState(false);
-    const [result, setResult] = useState(null);
+    const [result, setResult] = useState<T | null>(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [errors, setErrors] = useState([]);
+    const [errors, setErrors] = useState<string[]>([]);
 
     useEffect(() => {
         async function performFetch() {
@@ -31,15 +32,21 @@ export default function useFetch(method: string, url: string, payload?: object) 
                 setErrors([]);
                 setIsLoading(false);
                 setSuccess(true);
-            } catch (error) {
+            } catch (e: unknown) {
+                const error = e as AxiosError;
                 setIsLoading(false);
                 if (error.response) {
-                    setErrors(getErrorMessages(error.response.data));
+                    if (error.response.data) {
+                        setErrors(getErrorMessages(error.response.data));
+                    } else {
+                        setErrors([badRequestError]);
+                    }
                 } else if (error.request) {
                     setErrors([connectionError]);
                 } else {
                     setErrors([clientError]);
                 }
+                setSuccess(false);
             }
         }
         if (payload || method === "GET") {
@@ -47,5 +54,5 @@ export default function useFetch(method: string, url: string, payload?: object) 
         }
     }, [method, url, payload]);
     
-    return {success, result, isLoading, errors, setSuccess, setResult, setIsLoading, setErrors};
+    return {success, result, isLoading, errors, setIsLoading, setErrors};
 }
