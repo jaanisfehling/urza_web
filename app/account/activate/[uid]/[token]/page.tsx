@@ -7,7 +7,7 @@ import Navbar from "@/components/Navbar";
 import {redirect} from "next/navigation";
 import ResendActivationButton from "@/components/ResendActivationButton";
 
-export default function Actiate({params}: {params: {uid: string, token: string}}) {
+export default function Activate({params}: {params: {uid: string, token: string}}) {
     const [payload, setPayload] = useState<{uid: string, token: string}>();
     const {success, result, errors} = useFetch("POST", "/account/users/activation/", payload);
 
@@ -22,12 +22,9 @@ export default function Actiate({params}: {params: {uid: string, token: string}}
     }, [result, errors]);
 
     return (
-        <div className="flex flex-col bg-white dark:bg-gray-900 min-h-screen">
-            <Navbar></Navbar>
-            <div className="m-auto p-4 w-80 space-y-5 flex flex-col">
-                <Errors errors={errors}/>
-                {errors.length !== 0 && <ResendActivationButton/>}
-            </div>
+        <div className="m-auto p-4 w-80 space-y-5 flex flex-col">
+            <Errors errors={errors}/>
+            {errors.length !== 0 && <ResendActivationButton/>}
         </div>
     )
 }

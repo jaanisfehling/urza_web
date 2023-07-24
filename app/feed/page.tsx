@@ -3,7 +3,6 @@
 import {useEffect, useState} from "react";
 import useFetch from "@/hooks/useFetch";
 import Errors from "@/components/Errors";
-import Navbar from "@/components/Navbar";
 import Article from "@/components/Article";
 import ArticleList from "@/components/ArticleList";
 import { refreshTokenValid } from "@/api/utils";
@@ -50,8 +49,7 @@ export default function Feed() {
     }, [articleList]);
 
     return (
-        <div className="flex flex-col bg-white dark:bg-gray-900 min-h-screen">
-            <Navbar/>
+        <div>
             <Errors className="sticky top-14" errors={[...wsErrors||[], ...errors||[]]}/>
             <div className="flex">
                 <ArticleList articleList={[...messages||[], ...articleList||[]]} selectedArticle={selectedArticle} setSelectedArticle={setSelectedArticle} onLoadMoreClick={() => {setNewsUrl(result ? result?.next : "")}}/>
