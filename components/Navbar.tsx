@@ -30,8 +30,8 @@ export default function Navbar() {
                 <div className="relative flex">
                     <Link href={links[0].link} onClick={() => setShowSidebar(!showSidebar)} className="absolute top-2 right-0 z-10 lg:invisible px-2.5 rounded-sm bg-white dark:bg-gray-900 text-black dark:text-white text-2xl">{showSidebar ? "✖" : "☰"}</Link>
                     <div className="flex space-x-2 invisible lg:visible">
-                        <Link href={links[1].link} onClick={() => {setPage(links[1].link)}} className={`flex items-center h-8 px-2.5 m-2 text-black dark:text-white font-normal ${currentPage == links[1].link ? "font-bold" : "font-normal"}`}>{links[1].text}</Link>
-                        <Link href={links[2].link} onClick={() => {setPage(links[2].link)}} className={`flex items-center h-8 px-2.5 m-2 text-black dark:text-white font-normal ${currentPage == links[2].link  ? "font-bold" : "font-normal"}`}>{links[2].text}</Link>
+                        <Link href={links[1].link} onClick={() => {setPage(links[1].link)}} className={`flex items-center h-8 px-2.5 m-2 text-black dark:text-white ${currentPage == links[1].link ? "font-bold" : "font-normal"}`}>{links[1].text}</Link>
+                        <Link href={links[2].link} onClick={() => {setPage(links[2].link)}} className={`flex items-center h-8 px-2.5 m-2 text-black dark:text-white ${currentPage == links[2].link  ? "font-bold" : "font-normal"}`}>{links[2].text}</Link>
                     </div>
                 </div>
             </div>

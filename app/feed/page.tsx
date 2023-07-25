@@ -10,7 +10,9 @@ import ArticleList from "@/components/ArticleList";
 import { refreshTokenValid } from "@/api/utils";
 import { redirect } from "next/navigation";
 import useWebsocket from "@/hooks/useWebSocket";
-import GridLayout from "react-grid-layout";
+import { Responsive, WidthProvider } from "react-grid-layout";
+
+const ResponsiveGridLayout = WidthProvider(Responsive);
 
 interface ArticleData {
     url: string
@@ -54,14 +56,16 @@ export default function Feed() {
     return (
         <div>
             <Errors className="sticky top-14" errors={[...wsErrors||[], ...errors||[]]}/>
-            <GridLayout className="layout" cols={3} rowHeight={1200} width={1920}>
-                <div key="a">
+            <ResponsiveGridLayout className="layout"
+                                  cols={{ lg: 5, md: 5, sm: 3, xs: 1, xxs: 1 }}
+                                  breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}>
+                <div key="a" data-grid={{ x: 1, y: 1, w: 1, h: 1 }}>
                     {articleList && articleList?.length > 0 && <ArticleList articleList={[...messages||[], ...articleList||[]]} selectedArticle={selectedArticle} setSelectedArticle={setSelectedArticle} onLoadMoreClick={() => {setNewsUrl(result ? result?.next : "")}}/>}
                 </div>
-                <div key="b">
+                <div key="b" data-grid={{ x: 3, y: 1, w: 2, h: 2 }}>
                     {selectedArticle && <Article className="ml-40 lg:ml-80" article={selectedArticle}/>}
                 </div>
-            </GridLayout>
+            </ResponsiveGridLayout>
         </div>
     )
 }
