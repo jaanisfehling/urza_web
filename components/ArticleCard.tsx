@@ -1,4 +1,4 @@
-export default function ArticleCard({className, article, isSelected, onClick}) {
+export default function ArticleCard({className, article, isSelected, onClick}: {className?: string, article: Article, isSelected: boolean, onClick: () => void}) {
 
     if (isSelected) {
         className += " border-4";

@@ -12,7 +12,7 @@ export default function Dashboard() {
     }
 
     return (
-        <div>
+        <>
             <div className="flex justify-between m-6">
                 <h1 className="text-black dark:text-white text-2xl font-medium">Dashboard</h1>
                 <Link href="/" onClick={logout} className="flex items-center h-8 px-2.5 bg-std-blue rounded-sm hover:bg-std-blue-hover text-white font-normal text-base">Logout</Link>
@@ -23,6 +23,6 @@ export default function Dashboard() {
                 <div className="p-24 rounded-sm border-2 border-gray-400 dark:border-gray-700"></div>
                 <div className="p-24 rounded-sm border-2 border-gray-400 dark:border-gray-700"></div>
             </div>
-        </div>
+        </>
     )
 }
