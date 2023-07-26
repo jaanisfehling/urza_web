@@ -59,10 +59,10 @@ export default function Feed() {
             <ResponsiveGridLayout className="layout"
                                   cols={{ lg: 5, md: 5, sm: 3, xs: 1, xxs: 1 }}
                                   breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}>
-                <div key="a" data-grid={{ x: 1, y: 1, w: 1, h: 1 }}>
+                <div key="a" data-grid={{ x: 0, y: 0, w: 1, h: 2 }}>
                     {articleList && articleList?.length > 0 && <ArticleList articleList={[...messages||[], ...articleList||[]]} selectedArticle={selectedArticle} setSelectedArticle={setSelectedArticle} onLoadMoreClick={() => {setNewsUrl(result ? result?.next : "")}}/>}
                 </div>
-                <div key="b" data-grid={{ x: 3, y: 1, w: 2, h: 2 }}>
+                <div key="b" data-grid={{ x: 3, y: 0, w: 2, h: 2 }}>
                     {selectedArticle && <Article className="ml-40 lg:ml-80" article={selectedArticle}/>}
                 </div>
             </ResponsiveGridLayout>

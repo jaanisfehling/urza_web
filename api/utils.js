@@ -1,5 +1,3 @@
-import ExpiryMap from "expiry-map";
-import pMemoize from "p-memoize";
 import {axiosPublic} from "@/api/axios";
 
 export function login(result) {
@@ -58,14 +56,12 @@ export async function newAccessToken() {
         logout();
     }
 }
-const cache = new ExpiryMap(2000);
-export const memNewAccessToken = pMemoize(newAccessToken, {cache});
 
 export async function getAccessToken() {
     if (accessTokenValid()) {
         return localStorage.getItem("access");
     } else {
-        return await memNewAccessToken();
+        return await newAccessToken();
     }
 }
 
