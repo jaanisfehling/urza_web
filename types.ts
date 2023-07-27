@@ -1,4 +1,4 @@
-interface Article {
+type Article = {
     url: string,
     date_time: string,
     site_name: string,
@@ -13,8 +13,33 @@ interface Article {
     relevance: number
 }
 
-interface ArticleResponse {
+type ArticleResponse = {
     results: Article[],
     next: string,
     can_stream_articles?: boolean
+}
+
+type OHLC = {
+    "t": string,
+    "o": number,
+    "h": number,
+    "l": number,
+    "c": number,
+    "v": number
+}
+
+type MultiOHLC = {
+    [ticker: string]: OHLC
+}
+
+type Quote = {
+    "t": string,
+    "a_p": number,
+    "a_s": number,
+    "b_p": number,
+    "b_s": number
+}
+
+type MultiQuote = {
+    [ticker: string]: Quote
 }
