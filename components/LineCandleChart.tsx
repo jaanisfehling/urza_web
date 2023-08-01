@@ -2,6 +2,7 @@
 
 import ReactApexChart from "react-apexcharts";
 import {ApexOptions} from "apexcharts";
+import {useEffect, useState} from "react";
 
 function transformOHLCData(data: OHLC): {x: Date, y: number[]}[] {
     const newArray: {x: Date, y: number[]}[] = [];
@@ -19,7 +20,11 @@ function transformLineData(data: OHLC): {x: Date, y: number}[] {
 }
 
 export default function LineCandleChart({data, candles}: {data: OHLC, candles: boolean}) {
-    const apexData = {series: [{data: transformOHLCData(data)}]}
+    const [chartData, setChartData] = useState<{series: [{data: {x: Date, y: number[]}[]}]}>();
+
+    useEffect(() => {
+        setChartData({series: [{data: transformOHLCData(data)}]});
+    }, []);
 
     const commonOptions: ApexOptions = {
         chart: {
@@ -41,38 +46,44 @@ export default function LineCandleChart({data, candles}: {data: OHLC, candles: b
         },
     }
 
-    let chart;
-    if (candles) {
-        chart = <ReactApexChart
-                    type="candlestick"
-                    series={apexData.series}
-                    height="100%"
-                    options={{
-                        ...commonOptions,
-                        chart: {
-                            id: "candleChart",
-                        },
-                    }}
-                />
+    if (chartData) {
+        let chart;
+        if (candles) {
+            chart = <ReactApexChart
+                type="candlestick"
+                series={chartData.series}
+                height="100%"
+                options={{
+                    ...commonOptions,
+                    chart: {
+                        id: "candleChart",
+                    },
+                }}
+            />
+        } else {
+            chart = <ReactApexChart
+                type="line"
+                series={chartData.series}
+                height="100%"
+                options={{
+                    ...commonOptions,
+                    chart: {
+                        id: "lineChart",
+                    },
+                    stroke: {
+                        curve: "straight"
+                    },
+                }}
+            />
+        }
+        return (
+            <>
+                {chart}
+            </>
+        )
     } else {
-        chart = <ReactApexChart
-            type="line"
-            series={apexData.series}
-            height="100%"
-            options={{
-                ...commonOptions,
-                chart: {
-                    id: "lineChart",
-                },
-                stroke: {
-                    curve: 'straight'
-                },
-            }}
-        />
+        return(
+            <></>
+        )
     }
-    return (
-        <>
-            {chart}
-        </>
-    )
 }
