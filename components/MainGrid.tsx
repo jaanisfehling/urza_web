@@ -7,8 +7,9 @@ import ArticleView from "@/components/ArticleView";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import {Dispatch, SetStateAction} from "react";
 import ChartContainer from "@/components/ChartContainer";
+import Chart from "@/components/LineCandleChart";
 
-const data = [
+const data: OHLC = {"AAPL": [
         {
             "t": "2023-01-02T00:00:00.000+00:00",
             "o": 122.24,
@@ -171,7 +172,8 @@ const data = [
             "c": 132.3,
             "v": 26678
         }
-]
+    ]
+}
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -187,15 +189,12 @@ export default function MainGrid({articleList, selectedArticle, setSelectedArtic
                 {articleList && articleList?.length > 0 && <ArticleList articleList={articleList} selectedArticle={selectedArticle} setSelectedArticle={setSelectedArticle} onLoadMoreClick={onLoadMoreClick}/>}
             </div>
             <div key="b" data-grid={{ x: 1, y: 0, w: 2, h: 6 }}>
-                {selectedArticle && <ArticleView className="pt-4 px-10 h-full w-full overfl-auto rounded-sm border-2 border-gray-400 dark:border-gray-700" article={selectedArticle}/>}
+                {selectedArticle && <ArticleView className="pt-4 px-10 h-full w-full overflow-auto rounded-sm border-2 border-gray-400 dark:border-gray-700" article={selectedArticle}/>}
             </div>
-            <div key="c" data-grid={{ x: 3, y: 0, w: 2, h: 2 }}>
+            <div key="c" data-grid={{ x: 3, y: 0, w: 2, h: 3 }}>
                 <ChartContainer data={data}/>
             </div>
-            <div key="d" data-grid={{ x: 3, y: 2, w: 2, h: 2 }}>
-                <ChartContainer data={data}/>
-            </div>
-            <div key="e" data-grid={{ x: 3, y: 4, w: 2, h: 2 }}>
+            <div key="d" data-grid={{ x: 3, y: 3, w: 2, h: 3 }}>
                 <ChartContainer data={data}/>
             </div>
         </ResponsiveGridLayout>

@@ -20,26 +20,22 @@ type ArticleResponse = {
 }
 
 type OHLC = {
-    "t": string,
-    "o": number,
-    "h": number,
-    "l": number,
-    "c": number,
-    "v": number
-}
-
-type MultiOHLC = {
-    [ticker: string]: OHLC
+    [ticker: string]: {
+        "t": string,
+        "o": number,
+        "h": number,
+        "l": number,
+        "c": number,
+        "v": number
+    }[]
 }
 
 type Quote = {
-    "t": string,
-    "a_p": number,
-    "a_s": number,
-    "b_p": number,
-    "b_s": number
-}
-
-type MultiQuote = {
-    [ticker: string]: Quote
+    [ticker: string]: {
+        "t": string,
+        "a_p": number,
+        "a_s": number,
+        "b_p": number,
+        "b_s": number
+    }
 }
