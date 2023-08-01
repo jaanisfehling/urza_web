@@ -2,16 +2,19 @@
 
 import ReactApexChart from "react-apexcharts";
 import {ApexOptions} from "apexcharts";
-import {useEffect, useState} from "react";
+import {UIEvent, useEffect, useState} from "react";
 
-function transformOHLCData(data: OHLC): {x: Date, y: number[]}[] {
+type ApexOHLC = {x: Date, y: number[]}[]
+type ApexLine = {x: Date, y: number}[]
+
+function transformOHLCData(data: OHLC): ApexOHLC {
     const newArray: {x: Date, y: number[]}[] = [];
     Object.values(data)[0].forEach((e) => {
         newArray.push({x: new Date(e.t), y: [e.o, e.h, e.l, e.c]});
     });
     return newArray;
 }
-function transformLineData(data: OHLC): {x: Date, y: number}[] {
+function transformLineData(data: OHLC): ApexLine {
     const newArray: {x: Date, y: number}[] = [];
     Object.values(data)[0].forEach((e) => {
         newArray.push({x: new Date(e.t), y: e.c});
@@ -19,67 +22,81 @@ function transformLineData(data: OHLC): {x: Date, y: number}[] {
     return newArray;
 }
 
-export default function LineCandleChart({data, candles}: {data: OHLC, candles: boolean}) {
-    const [chartData, setChartData] = useState<{series: [{data: {x: Date, y: number[]}[]}]}>();
+export default function LineCandleChart({data, chartType}: {data: OHLC, chartType: "candlestick" | "line"}) {
+    const [chartData, setChartData] = useState<[{data: ApexOHLC | ApexLine}]>();
+    const [theme, setTheme] = useState<"dark" | "light">(window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light")
+    const [lineColor, setLineColor] = useState("#00ff00");
 
     useEffect(() => {
-        setChartData({series: [{data: transformOHLCData(data)}]});
+        // Set Data after first render so charts are using full width
+        const transformedData = (chartType == "candlestick") ? transformOHLCData(data) : transformLineData(data);
+        setChartData([{data: transformedData}]);
+
+        // Listen for color theme (light/dark) changes
+        function updateColorScheme(event: any) {event.matches ? setTheme("dark") : setTheme("light")}
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateColorScheme);
+        return () => window.removeEventListener("resize", updateColorScheme);
     }, []);
+
+    useEffect(() => {
+        console.log(chartType == "line" && chartData && chartData[0].data[0].y)
+        if (chartType == "line" && chartData && chartData[0].data[0].y > chartData[0].data[chartData[0].data.length - 1].y) {
+            setLineColor("#ff0000");
+        }
+    }, [chartData, chartType]);
 
     const commonOptions: ApexOptions = {
         chart: {
+            id: crypto.randomUUID(),
             zoom: {
                 enabled: false,
+            },
+            toolbar: {
+                show: false,
+                tools: {
+                    download: false,
+                    selection: false,
+                    zoom: false,
+                    zoomin: false,
+                    zoomout: false,
+                    pan: false,
+                    reset: false,
+                },
             },
         },
         title: {
             text: Object.keys(data)[0],
-            align: "left",
+            align: "center",
         },
         xaxis: {
             type: "datetime",
         },
         yaxis: {
             tooltip: {
-                enabled: true,
+                enabled: false,
             },
         },
+        theme: {
+            mode: theme
+        },
+        colors: [lineColor],
     }
 
     if (chartData) {
-        let chart;
-        if (candles) {
-            chart = <ReactApexChart
-                type="candlestick"
-                series={chartData.series}
-                height="100%"
-                options={{
-                    ...commonOptions,
-                    chart: {
-                        id: "candleChart",
-                    },
-                }}
-            />
-        } else {
-            chart = <ReactApexChart
-                type="line"
-                series={chartData.series}
-                height="100%"
-                options={{
-                    ...commonOptions,
-                    chart: {
-                        id: "lineChart",
-                    },
-                    stroke: {
-                        curve: "straight"
-                    },
-                }}
-            />
-        }
         return (
-            <>
-                {chart}
-            </>
+            <ReactApexChart
+                key={chartType}
+                type={chartType}
+                series={chartData}
+                height="100%"
+                options={{
+                    ...commonOptions,
+                    stroke: {
+                        curve: "straight",
+                        width: 1.5
+                    },
+                }}
+            />
         )
     } else {
         return(
