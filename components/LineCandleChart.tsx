@@ -1,6 +1,7 @@
 "use client";
 
 import ReactApexChart from "react-apexcharts";
+import {ApexOptions} from "apexcharts";
 
 function transformOHLCData(data: OHLC): {x: Date, y: number[]}[] {
     const newArray: {x: Date, y: number[]}[] = [];
@@ -20,7 +21,7 @@ function transformLineData(data: OHLC): {x: Date, y: number}[] {
 export default function LineCandleChart({data, candles}: {data: OHLC, candles: boolean}) {
     const apexData = {series: [{data: transformOHLCData(data)}]}
 
-    const commonOptions = {
+    const commonOptions: ApexOptions = {
         chart: {
             zoom: {
                 enabled: false,
