@@ -7,7 +7,6 @@ import ArticleView from "@/components/ArticleView";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import {Dispatch, SetStateAction} from "react";
 import ChartContainer from "@/components/ChartContainer";
-import Chart from "@/components/LineCandleChart";
 
 const data: OHLC = {"AAPL": [
         {
@@ -178,23 +177,43 @@ const data: OHLC = {"AAPL": [
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 export default function MainGrid({articleList, selectedArticle, setSelectedArticle, onLoadMoreClick}: {articleList: Article[], selectedArticle: Article | null | undefined, setSelectedArticle: Dispatch<SetStateAction<Article | null | undefined>>, onLoadMoreClick: () => void}) {
+    const lgLayout = [
+        { i: "a", x: 0, y: 0, w: 1, h: 6 },
+        { i: "b", x: 1, y: 0, w: 2, h: 6 },
+        { i: "c", x: 3, y: 0, w: 2, h: 3 },
+        { i: "d", x: 3, y: 3, w: 2, h: 3 }
+    ]
+    const smLayout = [
+        { i: "a", x: 0, y: 0, w: 1, h: 5 },
+        { i: "b", x: 1, y: 0, w: 2, h: 5 },
+        { i: "c", x: 0, y: 6, w: 3, h: 3 },
+        { i: "d", x: 0, y: 6, w: 3, h: 3 }
+    ]
+    const xsLayout = [
+        { i: "a", x: 0, y: 0, w: 1, h: 3 },
+        { i: "b", x: 0, y: 3, w: 1, h: 5 },
+        { i: "c", x: 0, y: 0, w: 1, h: 3 },
+        { i: "d", x: 0, y: 3, w: 1, h: 3 }
+    ]
+
     return (
         <ResponsiveGridLayout className="layout"
                               cols={{ lg: 5, md: 5, sm: 3, xs: 1, xxs: 1 }}
                               rowHeight={(window.innerHeight-126)/6}
                               breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
+                              layouts={{lg: lgLayout, md: lgLayout, sm: smLayout, xs: xsLayout, xxs: xsLayout}}
                               isResizable={false}
                               isBounded={true}>
-            <div key="a" data-grid={{ x: 0, y: 0, w: 1, h: 6 }}>
+            <div key="a">
                 {articleList && articleList?.length > 0 && <ArticleList articleList={articleList} selectedArticle={selectedArticle} setSelectedArticle={setSelectedArticle} onLoadMoreClick={onLoadMoreClick}/>}
             </div>
-            <div key="b" data-grid={{ x: 1, y: 0, w: 2, h: 6 }}>
+            <div key="b">
                 {selectedArticle && <ArticleView className="pt-4 px-10 h-full w-full overflow-auto rounded-sm border-2 border-gray-400 dark:border-gray-700" article={selectedArticle}/>}
             </div>
-            <div key="c" data-grid={{ x: 3, y: 0, w: 2, h: 3 }}>
+            <div key="c">
                 <ChartContainer data={data}/>
             </div>
-            <div key="d" data-grid={{ x: 3, y: 3, w: 2, h: 3 }}>
+            <div key="d">
                 <ChartContainer data={data}/>
             </div>
         </ResponsiveGridLayout>
