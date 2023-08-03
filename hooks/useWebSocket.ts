@@ -1,10 +1,10 @@
 import {useEffect, useRef, useState} from "react";
 import {getAccessToken} from "@/api/utils";
 
-export default function useWebSocket(url: string | undefined) {
+export default function useWebSocket<T>(url: string | undefined) {
     const [isReady, setIsReady] = useState(false);
-    const [messages, setMessages] = useState([]);
-    const [errors, setErrors] = useState([]);
+    const [messages, setMessages] = useState<T[]>([]);
+    const [errors, setErrors] = useState<string[]>([]);
     const ws = useRef(null);
       
     useEffect(() => {
@@ -22,16 +22,16 @@ export default function useWebSocket(url: string | undefined) {
             };
 
             socket.onerror = (event) => {
-                setErrors(event);
+                console.log(event)
+                setErrors(["An error occured when connecting to real-time stream."]);
             };
         
             socket.onmessage = (event) => {
-                console.log(messages);
                 setMessages(prevState => [JSON.parse(event.data), ...prevState]);
             };
         
             ws.current = socket;
-            return () => {socket.close()};
+            return () => socket.close();
         }
         if (url) {
             establishConnection();

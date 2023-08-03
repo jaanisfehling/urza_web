@@ -1,5 +1,6 @@
 type Article = {
     url: string,
+    ticker: string,
     date_time: string,
     site_name: string,
     title: string,

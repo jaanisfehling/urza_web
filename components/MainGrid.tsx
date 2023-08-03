@@ -176,7 +176,7 @@ const data: OHLC = {"AAPL": [
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-export default function MainGrid({articleList, selectedArticle, setSelectedArticle, onLoadMoreClick}: {articleList: Article[], selectedArticle: Article | null | undefined, setSelectedArticle: Dispatch<SetStateAction<Article | null | undefined>>, onLoadMoreClick: () => void}) {
+export default function MainGrid({articleList, selectedArticle, setSelectedArticle, onLoadMoreClick}: {articleList: Article[] | null | undefined, selectedArticle: Article | null | undefined, setSelectedArticle: Dispatch<SetStateAction<Article | null | undefined>>, onLoadMoreClick: () => void}) {
     const [height, setHeight] = useState(window.innerHeight);
 
     useLayoutEffect(() => {

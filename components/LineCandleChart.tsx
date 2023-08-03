@@ -39,7 +39,6 @@ export default function LineCandleChart({data, chartType}: {data: OHLC, chartTyp
     }, []);
 
     useEffect(() => {
-        console.log(chartType == "line" && chartData && chartData[0].data[0].y)
         if (chartType == "line" && chartData && chartData[0].data[0].y > chartData[0].data[chartData[0].data.length - 1].y) {
             setLineColor("#ff0000");
         }

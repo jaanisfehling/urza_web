@@ -14,20 +14,17 @@ export default function Feed() {
     if (typeof document !== "undefined" && !refreshTokenValid()) {
         redirect("/login");
     }
-    const [newsUrl, setNewsUrl] = useState<string>("/news/article/?get_stream_article_perm=true");
+    const [newsUrl, setNewsUrl] = useState<string>("/news/article/");
     const [articleList, setArticleList] = useState<Article[] | null | undefined>(null);
     const [selectedArticle, setSelectedArticle] = useState<Article | null | undefined>(null);
     const {result, errors} = useFetch<ArticleResponse>("GET", newsUrl);
 
     const [wsUrl, setWsUrl] = useState<string>();
-    const {messages, errors: wsErrors} = useWebsocket(wsUrl);
+    const {messages, errors: wsErrors} = useWebsocket<Article>("/news/");
 
     useEffect(() => {
         if (articleList == null) {
             setArticleList(result?.results);
-            if (result?.can_stream_articles) {
-                setWsUrl("/news/");
-            }
         } else {
             setArticleList([...articleList, ...result?.results||[]]);
         }
@@ -38,10 +35,16 @@ export default function Feed() {
             setSelectedArticle(articleList?.[0]);
         }
     }, [articleList]);
+
+    useEffect(() => {
+        setArticleList([...articleList||[], ...messages||[]]);
+        console.log(messages)
+    }, [messages]);
+
     return (
         <>
             <Errors className="top-14" errors={[...errors||[], ...wsErrors||[]]}/>
-            <MainGrid articleList={[...messages||[], ...articleList||[]]} selectedArticle={selectedArticle} setSelectedArticle={setSelectedArticle} onLoadMoreClick={() => {setNewsUrl(result ? result?.next : "")}}/>
+            <MainGrid articleList={articleList} selectedArticle={selectedArticle} setSelectedArticle={setSelectedArticle} onLoadMoreClick={() => {setNewsUrl(result ? result?.next : "")}}/>
         </>
     )
 }
