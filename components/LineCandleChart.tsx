@@ -62,6 +62,7 @@ export default function LineCandleChart({data, chartType}: {data: OHLC, chartTyp
                     reset: false,
                 },
             },
+            background: "rgba(0, 0, 0, .0)"
         },
         title: {
             text: Object.keys(data)[0],

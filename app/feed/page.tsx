@@ -14,10 +14,10 @@ export default function Feed() {
     if (typeof document !== "undefined" && !refreshTokenValid()) {
         redirect("/login");
     }
-    const [newsUrl, setNewsUrl] = useState<string>("/news/article/");
+    const [url, setUrl] = useState<string>("/news/article/");
     const [articleList, setArticleList] = useState<Article[] | null | undefined>(null);
     const [selectedArticle, setSelectedArticle] = useState<Article | null | undefined>(null);
-    const {result, errors} = useFetch<ArticleResponse>("GET", newsUrl);
+    const {result, errors} = useFetch<ArticleResponse>("GET", url);
 
     const [wsUrl, setWsUrl] = useState<string>();
     const {messages, errors: wsErrors} = useWebsocket<Article>("/news/");
@@ -36,15 +36,10 @@ export default function Feed() {
         }
     }, [articleList]);
 
-    useEffect(() => {
-        setArticleList([...articleList||[], ...messages||[]]);
-        console.log(messages)
-    }, [messages]);
-
     return (
         <>
             <Errors className="top-14" errors={[...errors||[], ...wsErrors||[]]}/>
-            <MainGrid articleList={articleList} selectedArticle={selectedArticle} setSelectedArticle={setSelectedArticle} onLoadMoreClick={() => {setNewsUrl(result ? result?.next : "")}}/>
+            <MainGrid articleList={[...messages||[], ...articleList||[]]} selectedArticle={selectedArticle} setSelectedArticle={setSelectedArticle} onLoadMoreClick={() => {setUrl(result ? result?.next : "")}}/>
         </>
     )
 }
