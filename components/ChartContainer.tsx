@@ -5,7 +5,7 @@ import Errors from "@/components/Errors";
 
 export default function ChartContainer({ticker}: {ticker: string}) {
     const [chartType, setChartType] = useState<"candlestick" | "line">("candlestick");
-    const [url, setUrl] = useState<string>(`/market/ohlc/${ticker}`)
+    const [url, setUrl] = useState<string>(`/market/ohlc/${ticker}/hour/`)
     const {result, errors} = useFetch<OHLC>("GET", url);
 
     return (
@@ -17,11 +17,11 @@ export default function ChartContainer({ticker}: {ticker: string}) {
             <div className="flex justify-between p-2">
                 <p>Hi</p>
                 <div className="flex space-x-2">
-                    <button className="text-xs " onClick={() => setUrl(`/market/ohlc/${ticker}?frequency=minute)`)}>Minute</button>
-                    <button className="text-xs " onClick={() => setUrl(`/market/ohlc/${ticker}?frequency=hour)`)}>Hour</button>
-                    <button className="text-xs " onClick={() => setUrl(`/market/ohlc/${ticker}?frequency=day)`)}>Day</button>
-                    <button className="text-xs " onClick={() => setUrl(`/market/ohlc/${ticker}?frequency=week)`)}>Week</button>
-                    <button className="text-xs " onClick={() => setUrl(`/market/ohlc/${ticker}?frequency=month)`)}>Month</button>
+                    <button className={`text-xs ${url.includes("minute") && "text-sky-500"}`} onClick={() => setUrl(`/market/ohlc/${ticker}/minute/`)}>Minute</button>
+                    <button className={`text-xs ${url.includes("hour") && "text-sky-500"}`} onClick={() => setUrl(`/market/ohlc/${ticker}/hour/`)}>Hour</button>
+                    <button className={`text-xs ${url.includes("day") && "text-sky-500"}`} onClick={() => setUrl(`/market/ohlc/${ticker}/day/`)}>Day</button>
+                    <button className={`text-xs ${url.includes("week") && "text-sky-500"}`} onClick={() => setUrl(`/market/ohlc/${ticker}/week/`)}>Week</button>
+                    <button className={`text-xs ${url.includes("month") && "text-sky-500"}`} onClick={() => setUrl(`/market/ohlc/${ticker}/month/`)}>Month</button>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" className="sr-only peer" defaultChecked={true} onChange={() => setChartType(prevState => (prevState == "line") ? "candlestick" : "line")}/>
