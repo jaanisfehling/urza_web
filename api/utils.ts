@@ -1,6 +1,6 @@
 import {axiosPublic} from "@/api/axios";
 
-export function login(result) {
+export function login(result: {access: string, refresh: string}) {
     localStorage.setItem("access", result.access);
     localStorage.setItem("refresh", result.refresh);
 
@@ -25,11 +25,11 @@ export function logout() {
 }
 
 export function accessTokenValid() {
-    return new Date(localStorage.getItem("accessExpiry")) > new Date()
+    return new Date(localStorage.getItem("accessExpiry")||0) > new Date()
 }
 
 export function refreshTokenValid() {
-    return new Date(localStorage.getItem("refreshExpiry")) > new Date()
+    return new Date(localStorage.getItem("refreshExpiry")||0) > new Date()
 }
 
 export async function newAccessToken() {
@@ -65,18 +65,18 @@ export async function getAccessToken() {
     }
 }
 
-export function capFirstLetterAndRemoveStop(string) {
-    if (string.charAt((string.length-1)) === ".") {
-        string = string.substring(0, string.length-1);
+export function capFirstLetterAndRemoveStop(sentence: string) {
+    if (sentence.charAt((sentence.length-1)) === ".") {
+        sentence = sentence.substring(0, sentence.length-1);
     }
-    return string.charAt(0).toUpperCase() + string.slice(1);
+    return sentence.charAt(0).toUpperCase() + sentence.slice(1);
 }
 
-export function getErrorMessages(data) {
+export function getErrorMessages(data: any): string[] {
     let messages = [];
     if (typeof data === "string" || data instanceof String) {
         if (data !== "") {
-            messages.push(capFirstLetterAndRemoveStop(data));
+            messages.push(capFirstLetterAndRemoveStop(data as string));
         }
     } else if (Array.isArray(data)) {
         for (const field of data) {

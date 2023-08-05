@@ -1,18 +1,18 @@
 "use client";
 
 import {useEffect, useState} from "react";
-import {accessTokenValid, clientError, connectionError, login} from "@/api/utils";
+import {clientError, connectionError, login} from "@/api/utils";
 import {useRouter} from "next/navigation";
 import Errors from "@/components/Errors";
 import useFetch from "@/hooks/useFetch";
 import Button from "@/components/Button";
 
 export default function Login() {
-    const [payload, setPayload] = useState(null);
-    const {result, isLoading, errors} = useFetch("POST", "/account/jwt/", payload);
+    const [payload, setPayload] = useState<{email: string, password: string}>();
+    const {result, isLoading, errors} = useFetch<{access: string, refresh: string}>("POST", "/account/jwt/", payload);
     const router = useRouter();
 
-    async function handleSubmit(event) {
+    async function handleSubmit(event: any) {
         event.preventDefault();
         const newPayload = {
             email: event.target.email.value,

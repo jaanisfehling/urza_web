@@ -23,7 +23,7 @@ export default function useWebSocket<T>(url: string | undefined) {
 
             socket.onerror = (event) => {
                 console.log(event)
-                setErrors(["An error occured when connecting to real-time stream."]);
+                setErrors(["An error occured when connecting to real-time stream"]);
             };
         
             socket.onmessage = (event) => {
