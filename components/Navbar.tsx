@@ -12,7 +12,7 @@ export default function Navbar() {
     if (refreshTokenValid()) {
         links = [
             {link: "/feed", text: "Urza"},
-            {link: "/dashboard", text: "Dashboard"},
+            {link: "/account", text: "Account"},
             {link: "/feed", text: "Feed"}
         ]
     } else {

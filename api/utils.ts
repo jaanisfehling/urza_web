@@ -25,11 +25,11 @@ export function logout() {
 }
 
 export function accessTokenValid() {
-    return new Date(localStorage.getItem("accessExpiry")||0) > new Date()
+    return new Date(localStorage.getItem("accessExpiry")) > new Date()
 }
 
 export function refreshTokenValid() {
-    return new Date(localStorage.getItem("refreshExpiry")||0) > new Date()
+    return new Date(localStorage.getItem("refreshExpiry")) > new Date()
 }
 
 export async function newAccessToken() {
