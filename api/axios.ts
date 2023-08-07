@@ -21,8 +21,8 @@ axiosPrivate.interceptors.request.use(async function (config) {
 
 // This should not be needed under normal circumstances
 axiosPrivate.interceptors.response.use((response) => response, async function (error) {
-    const originalRequest  = error?.config ;
-    if (error?.response?.status === 401 && !originalRequest?.sent) {
+    const originalRequest = error?.config ;
+    if (error?.response?.status == 401 && !originalRequest?.sent) {
         originalRequest.sent = true;
         const access = await newAccessToken();
         if (access) {

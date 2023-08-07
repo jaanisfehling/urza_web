@@ -25,11 +25,11 @@ export function logout() {
 }
 
 export function accessTokenValid() {
-    return new Date(localStorage.getItem("accessExpiry")) > new Date()
+    return new Date(localStorage.getItem("accessExpiry")||0) > new Date();
 }
 
 export function refreshTokenValid() {
-    return new Date(localStorage.getItem("refreshExpiry")) > new Date()
+    return new Date(localStorage.getItem("refreshExpiry")||0) > new Date();
 }
 
 export async function newAccessToken() {
@@ -46,7 +46,8 @@ export async function newAccessToken() {
             localStorage.setItem("access", result.access);
 
             const accessExpiry = new Date();
-            accessExpiry.setSeconds(accessExpiry.getSeconds() + 8);
+            accessExpiry.setMinutes(accessExpiry.getMinutes() + 5);
+            accessExpiry.setSeconds(accessExpiry.getSeconds() - 10);
             localStorage.setItem("accessExpiry", accessExpiry.toISOString());
 
             return result.access;

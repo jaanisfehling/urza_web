@@ -6,18 +6,29 @@ import {logout} from "@/api/utils";
 import {refreshTokenValid} from "@/api/utils";
 import {redirect} from "next/navigation";
 import useFetch from "@/hooks/useFetch";
+import {useState} from "react";
+import Button from "@/components/Button";
 
 export default function Account() {
     if (typeof document !== "undefined" && !refreshTokenValid()) {
         redirect("/login");
     }
     const {result: accountResult, errors: accountErrors} = useFetch<{email: string}>("GET", "/account/users/me/");
-    const {result: tokenResult, errors: tokenErrors} = useFetch<{token: string}>("GET", "/account/token/");
+    const [requestTokenMethod, setRequestTokenMethod] = useState<string>("GET");    
+    const {result: tokenResult, errors: tokenErrors, isLoading: tokenIsLoading} = useFetch<{token: string}>(requestTokenMethod, "/account/token/", {});
+    const [showToken, setShowToken] = useState<Boolean>(false);
+
+    let tokenButtonText;
+    if (tokenErrors) {
+        tokenButtonText = "Generate API Key";
+    } else {
+        tokenButtonText = "Show API Key";
+    }
 
     return (
         <>
             <div className="flex justify-between m-6">
-                <h1 className="text-2xl font-medium">Logged in as <i>{accountResult?.email}</i></h1>
+                <h1 className="text-lg">Logged in as {accountResult?.email}</h1>
                 <Link href="/" onClick={logout} className="flex items-center h-8 px-2.5 bg-std-blue rounded-sm hover:bg-std-blue-hover text-white font-normal text-base">Logout</Link>
             </div>
             <div className="mx-6 grid grid-cols-2 gap-4">
@@ -29,7 +40,7 @@ export default function Account() {
                 </div>
                 <div className="flex flex-col space-y-2 p-4 rounded-sm border-2 border-gray-400 dark:border-gray-700">
                     <p>API Key</p>
-                    <p>{tokenResult?.token}</p>
+                    <Button className="p-1.5 h-10 w-48" text={tokenButtonText} isLoading={tokenIsLoading} onClick={() => setRequestTokenMethod("POST")}/>
                 </div>
                 <div className="flex flex-col space-y-2 p-4 rounded-sm border-2 border-gray-400 dark:border-gray-700">
                     <p>Want to connect with other users, request a feature or report a bug?</p>

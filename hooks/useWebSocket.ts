@@ -5,33 +5,33 @@ export default function useWebSocket<T>(url: string | undefined) {
     const [isReady, setIsReady] = useState(false);
     const [messages, setMessages] = useState<T[]>([]);
     const [errors, setErrors] = useState<string[]>([]);
-    const ws = useRef(null);
+    const ws = useRef<WebSocket | null>(null);
       
     useEffect(() => {
         async function establishConnection() {
             const baseUrl = "ws://localhost:8000"
             const queryString = `?bearer=${await getAccessToken()}`;
-            const socket = new WebSocket(baseUrl + url + queryString);
+            ws.current = new WebSocket(baseUrl + url + queryString);
 
-            socket.onopen = () => {
+            ws.current.onopen = () => {
                 setIsReady(true);
             };
         
-            socket.onclose = () => {
+            ws.current.onclose = () => {
                 setIsReady(false);
             };
 
-            socket.onerror = (event) => {
+            ws.current.onerror = (event) => {
                 console.log(event)
                 setErrors(["An error occured when connecting to real-time stream"]);
             };
         
-            socket.onmessage = (event) => {
+            ws.current.onmessage = (event) => {
                 setMessages(prevState => [JSON.parse(event.data), ...prevState]);
             };
         
-            ws.current = socket;
-            return () => socket.close();
+            const currentWs = ws.current;
+            return () => currentWs.close();
         }
         if (url) {
             establishConnection();
