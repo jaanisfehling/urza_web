@@ -5,9 +5,11 @@ import {logout} from "@/api/utils";
 import {refreshTokenValid} from "@/api/utils";
 import {redirect} from "next/navigation";
 import useFetch from "@/hooks/useFetch";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import Button from "@/components/Button";
 import Copy from "@/components/Copy";
+import Errors from "@/components/Errors";
+import { LoggedInContext, LoggedInContextType } from "@/context_providers/logged-in-provider";
 
 export default function Account() {
     if (typeof document !== "undefined" && !refreshTokenValid()) {
@@ -19,6 +21,7 @@ export default function Account() {
     const [getTokenPayload, setGetTokenPayload] = useState<any>();
     const [refreshTokenPayload, setRefreshTokenPayload] = useState<any>();
     const [deleteTokenPayload, setDeleteTokenPayload] = useState<any>();
+    const loggedInContext = useContext<LoggedInContextType>(LoggedInContext);
     const {result: accountResult, errors: accountErrors} = useFetch<{email: string}>("GET", "/account/users/me/");
     const {result: getTokenResult, errors: getTokenErrors, isLoading: getTokenIsLoading} = useFetch<{token: string}>("POST", "/account/token/", getTokenPayload);
     const {result: refreshTokenResult, errors: refreshTokenErrors, isLoading: refreshTokenIsLoading} = useFetch<{token: string}>("POST", "/account/token/refresh/", refreshTokenPayload);
@@ -45,9 +48,10 @@ export default function Account() {
 
     return (
         <>
+            <Errors errors={accountErrors}/>
             <div className="flex justify-between m-6">
                 <h1 className="text-lg">Logged in as: {accountResult?.email}</h1>
-                <Link href="/" onClick={logout} className="flex items-center place-content-center h-8 px-2.5 bg-white dark:bg-std-blue border rounded-sm border-std-blue dark:border-transparent hover:bg-sky-100 dark:hover:bg-std-blue-hover">Logout</Link>
+                <Link href="/" onClick={() => {loggedInContext?.setIsLoggedIn(false); logout()}} className="flex items-center place-content-center h-8 px-2.5 bg-white dark:bg-std-blue border rounded-sm border-std-blue dark:border-transparent hover:bg-sky-100 dark:hover:bg-std-blue-hover">Logout</Link>
             </div>
             <div className="mx-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex flex-col space-y-2 p-4 overflow-auto rounded-sm border-2 border-gray-400 dark:border-gray-700">
@@ -57,7 +61,8 @@ export default function Account() {
                     <p>Profile Settings</p>
                 </div>
                 <div className="flex flex-col space-y-2 p-4 overflow-auto rounded-sm border-2 border-gray-400 dark:border-gray-700">
-                <p>API Key</p>
+                    <p>API Key</p>
+                    <Errors errors={[...getTokenErrors, ...refreshTokenErrors, ...deleteTokenErrors]}/>
                     {showToken 
                     ? <div className="relative h-10 w-80">
                         <div className="p-1.5 h-10 border rounded-sm bg-gray-200 dark:bg-gray-950 shadow-inner overflow-x-scroll">

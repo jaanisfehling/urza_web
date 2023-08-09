@@ -1,15 +1,17 @@
 "use client";
 
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {clientError, connectionError, login} from "@/api/utils";
 import {useRouter} from "next/navigation";
 import Errors from "@/components/Errors";
 import useFetch from "@/hooks/useFetch";
 import Button from "@/components/Button";
+import { LoggedInContextType, LoggedInContext } from "@/context_providers/logged-in-provider";
 
 export default function Login() {
     const [payload, setPayload] = useState<{email: string, password: string}>();
     const {result, isLoading, errors} = useFetch<{access: string, refresh: string}>("POST", "/account/jwt/", payload);
+    const loggedInContext = useContext<LoggedInContextType>(LoggedInContext);
     const router = useRouter();
 
     async function handleSubmit(event: any) {
@@ -32,6 +34,7 @@ export default function Login() {
 
     useEffect(() => {
         if (result) {
+            loggedInContext?.setIsLoggedIn(true);
             login(result);
             router.push("/feed");
         }

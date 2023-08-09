@@ -1,14 +1,15 @@
 "use client";
 
-import {refreshTokenValid} from "@/api/utils";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import Link from "next/link";
+import {LoggedInContext, LoggedInContextType} from "@/context_providers/logged-in-provider";
 
 export default function Navbar() {
+    const loggedInContext = useContext<LoggedInContextType>(LoggedInContext);
     const [showSidebar, setShowSidebar] = useState(false);
 
     let links: {link: string, text: string}[];
-    if (refreshTokenValid()) {
+    if (loggedInContext?.isLoggedIn) {
         links = [
             {link: "/feed", text: "Urza"},
             {link: "/account", text: "Account"},

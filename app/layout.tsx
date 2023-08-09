@@ -9,10 +9,10 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
   title: "Urza",
-  description: "Live financial news right from the source",
+  description: "Live financial news",
 }
 
-export default function RootLayout({ children }: {children?: ReactNode}) {
+export default function RootLayout({children}: {children?: ReactNode}) {
     return (
         <html lang="en">
             <body className={inter.className + ""}>
