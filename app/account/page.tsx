@@ -9,7 +9,7 @@ import {useContext, useEffect, useState} from "react";
 import Button from "@/components/Button";
 import Copy from "@/components/Copy";
 import Errors from "@/components/Errors";
-import { LoggedInContext, LoggedInContextType } from "@/context_providers/logged-in-provider";
+import {LoggedInContext, LoggedInContextType} from "@/context_providers/logged-in-provider";
 
 export default function Account() {
     if (typeof document !== "undefined" && !refreshTokenValid()) {

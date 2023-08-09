@@ -2,7 +2,7 @@
 
 import ReactApexChart from "react-apexcharts";
 import {ApexOptions} from "apexcharts";
-import {UIEvent, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 
 type ApexOHLC = {x: Date, y: number[]}[]
 type ApexLine = {x: Date, y: number}[]
