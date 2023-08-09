@@ -27,7 +27,7 @@ export default function Navbar() {
             <div className="flex h-14 w-full px-4 items-center justify-between border-b-2 border-gray-700 dark:border-gray-700">
                 <Link href={links[0].link} className="text-2xl font-normal">{links[0].text}</Link>
                 <div className="relative flex">
-                    <Link href={links[0].link} onClick={() => setShowSidebar(!showSidebar)} className="absolute top-2 right-0 z-10 md:invisible px-2.5 rounded-sm text-2xl">{showSidebar ? "✖" : "☰"}</Link>
+                    <button onClick={() => setShowSidebar(!showSidebar)} className="absolute top-2 right-0 z-10 md:invisible px-2.5 rounded-sm text-2xl">{showSidebar ? "✖" : "☰"}</button>
                     <div className="flex space-x-2 invisible md:visible">
                         <Link href={links[1].link} className="flex items-center h-8 px-2.5 m-2">{links[1].text}</Link>
                         <Link href={links[2].link} className="flex items-center h-8 px-2.5 m-2">{links[2].text}</Link>

@@ -12,6 +12,7 @@ export default function useFetch<T>(method: string, url: string, payload?: objec
     useEffect(() => {
         async function performFetch() {
             try {
+                setSuccess(false);
                 setIsLoading(true);
 
                 let actualAxios;
