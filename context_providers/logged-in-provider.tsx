@@ -1,14 +1,13 @@
 "use client";
  
-import { refreshTokenValid } from "@/api/utils";
 import {ReactNode, createContext, useState} from "react";
 
-export type LoggedInContextType = {isLoggedIn: Boolean, setIsLoggedIn: (v: boolean) => void} | null
+export type LoggedInContextType = {isLoggedIn: boolean | undefined, setIsLoggedIn: (v: boolean) => void} | null
  
 export const LoggedInContext = createContext<LoggedInContextType>(null);
  
 export default function LoggedInProvider({children}: {children?: ReactNode}) {
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(refreshTokenValid());
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean | undefined>();
 
     return (
         <LoggedInContext.Provider value={{isLoggedIn, setIsLoggedIn}}>

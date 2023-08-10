@@ -1,12 +1,17 @@
 "use client";
 
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import Link from "next/link";
 import {LoggedInContext, LoggedInContextType} from "@/context_providers/logged-in-provider";
+import { refreshTokenValid } from "@/api/utils";
 
 export default function Navbar() {
     const loggedInContext = useContext<LoggedInContextType>(LoggedInContext);
     const [showSidebar, setShowSidebar] = useState(false);
+
+    useEffect(() => {
+        loggedInContext?.setIsLoggedIn(refreshTokenValid());
+    }, []);
 
     let links: {link: string, text: string}[];
     if (loggedInContext?.isLoggedIn) {
@@ -15,11 +20,17 @@ export default function Navbar() {
             {link: "/account", text: "Account"},
             {link: "/feed", text: "Feed"}
         ]
-    } else {
+    } else if (loggedInContext?.isLoggedIn == false) {
         links = [
             {link: "/", text: "Urza"},
             {link: "/login", text: "Login"},
             {link: "/signup", text: "Sign Up"}
+        ]
+    } else {
+        links = [
+            {link: "/", text: ""},
+            {link: "/", text: ""},
+            {link: "/", text: ""}
         ]
     }
 
