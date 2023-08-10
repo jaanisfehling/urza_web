@@ -1,10 +1,8 @@
-"use client";
-
 import "/node_modules/react-grid-layout/css/styles.css";
 import "/node_modules/react-resizable/css/styles.css";
 import ArticleList from "@/components/ArticleList";
 import ArticleView from "@/components/ArticleView";
-import { Responsive, WidthProvider } from "react-grid-layout";
+import {Responsive, WidthProvider} from "react-grid-layout";
 import {Dispatch, SetStateAction, useLayoutEffect, useState} from "react";
 import ChartContainer from "@/components/ChartContainer";
 
