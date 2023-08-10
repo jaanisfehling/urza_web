@@ -27,11 +27,11 @@ export default function SendResetLinks({email}: {email: string | undefined}) {
         <>
             <Errors errors={[...resetPwdErrors, ...resetEmailErrors]}/>
             {!resetPwdSent 
-            ? <Button className="w-36 h-10" text="Reset Password" isLoading={resetPwdIsLoading} onClick={() => email && setResetPwdPayload({email})}/>
-            : <p>Email with a link to reset your password was successfully sent.</p>}
+            ? <Button className="w-36" text="Reset Password" isLoading={resetPwdIsLoading} onClick={() => email && setResetPwdPayload({email})}/>
+            : <span className="flex items-center h-10">Email with a link to reset your password was successfully sent.</span>}
             {!resetEmailSent 
-            ? <Button className="w-36 h-10" text="Reset Email" isLoading={resetEmailIsLoading} onClick={() => email && setResetEmailPayload({email})}/>
-            : <p>Email with a link to reset your email was successfully sent.</p>}
+            ? <Button className="w-36" text="Reset Email" isLoading={resetEmailIsLoading} onClick={() => email && setResetEmailPayload({email})}/>
+            : <span className="flex items-center h-10">Email with a link to reset your email was successfully sent.</span>}
         </>
     )
 }

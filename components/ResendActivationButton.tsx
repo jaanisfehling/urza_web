@@ -10,7 +10,7 @@ export default function ResendActivationButton({className}: {className?: string}
     return (
         <div className={`flex flex-col space-y-5 ${className}`}>
             <Errors errors={errors}/>
-            <Button className="m-auto h-10 w-24" text="Resend" isLoading={isLoading} onClick={() => {setPayload({email: localStorage.getItem("email")})}}/>
+            <Button className="m-auto" text="Resend" isLoading={isLoading} onClick={() => {setPayload({email: localStorage.getItem("email")})}}/>
         </div>
     )
 }

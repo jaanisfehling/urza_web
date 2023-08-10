@@ -4,9 +4,9 @@ import {useState} from "react";
 import Errors from "@/components/Errors";
 import Button from "@/components/Button";
 
-export default function ResetPassword() {
+export default function ResetPassword({params}: {params: {uid: string, token: string}}) {
     const [payload, setPayload] = useState<{email: string, password: string, re_password: string}>();
-    const {result, isLoading, errors, setErrors} = useFetch<{email: string, password: string, re_password: string}>("POST", "/account/users/", payload);
+    const {isLoading, errors, setErrors} = useFetch<{email: string, password: string, re_password: string}>("POST", "/account/users/", payload);
 
     async function handleSubmit(event: any) {
         event.preventDefault();
@@ -39,7 +39,7 @@ export default function ResetPassword() {
             <input className="h-10 border-2 p-0.5 rounded-sm dark:bg-gray-900 dark:border-gray-700" id="oldPassword" type="password" placeholder="Email" required/>
             <input className="h-10 border-2 p-0.5 rounded-sm dark:bg-gray-900 dark:border-gray-700" minLength={8} id="newPassword" type="password" placeholder="Password" required/>
             <input className="h-10 border-2 p-0.5 rounded-sm dark:bg-gray-900 dark:border-gray-700" minLength={8} id="confirmPassword" type="password" placeholder="Confirm Password" required/>
-            <Button className="m-auto h-10 w-24" text="Sign Up" isLoading={isLoading}/>
+            <Button className="m-auto w-24" text="Sign Up" isLoading={isLoading}/>
         </form>
     </div>
     )

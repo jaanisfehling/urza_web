@@ -3,6 +3,8 @@ import Button from "@/components/Button";
 import Copy from "@/components/Copy";
 import useFetch from "@/hooks/useFetch";
 import {useState, useEffect} from "react";
+import RefreshButton from "./RefreshButton";
+import DeleteButton from "./DeleteButton";
 
 export default function APIKeyForm() {
     const [token, setToken] = useState<string>();
@@ -37,17 +39,17 @@ export default function APIKeyForm() {
         <>
             <Errors errors={[...getTokenErrors, ...refreshTokenErrors, ...deleteTokenErrors]}/>
             {showToken 
-            ? <div className="relative h-10 w-80">
-                <div className="p-1.5 h-10 border rounded-sm bg-gray-200 dark:bg-gray-950 shadow-inner overflow-x-scroll">
+            ? <div className="flex h-10">
+                <div className="w-72 p-1.5 border rounded-sm bg-gray-200 dark:bg-gray-950 shadow-inner overflow-x-scroll">
                     <span>{token}</span>
                 </div>
-                <Copy className="absolute right-0.5 top-1 bottom-1 bottom-0 z-10" value={getTokenResult?.token}/>
-                <div className="flex justify-around mt-2">
-                    <Button className="h-8 w-28 text-sm" text="Refresh Token" isLoading={refreshTokenIsLoading} onClick={() => setRefreshTokenPayload({})}/>
-                    <Button className="h-8 w-28 text-sm text-red-800 border-red-800" text="Delete Token" isLoading={deleteTokenIsLoading} onClick={() => setDeleteTokenPayload({})}/>
+                <div className="flex ml-1 space-x-1 my-auto">
+                    <Copy className="" value={getTokenResult?.token}/>
+                    <RefreshButton onClick={() => setRefreshTokenPayload({})}/>
+                    <DeleteButton onClick={() => setDeleteTokenPayload({})}/>
                 </div>
             </div>
-            : <Button className="w-28 h-10" text="Get API Key" isLoading={getTokenIsLoading} onClick={() => setGetTokenPayload({})}/>}
+            : <Button className="w-32" text="Get API Key" isLoading={getTokenIsLoading} onClick={() => setGetTokenPayload({})}/>}
         </>
     )
 }

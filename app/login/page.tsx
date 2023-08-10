@@ -46,7 +46,7 @@ export default function Login() {
             <form onSubmit={handleSubmit} className="flex flex-col space-y-5">
                 <input className="h-10 border-2 p-0.5 rounded-sm dark:bg-gray-900 dark:border-gray-700" id="email" type="email" placeholder="Email" required/>
                 <input className="h-10 border-2 p-0.5 rounded-sm dark:bg-gray-900 dark:border-gray-700" id="password" type="password" placeholder="Password" required/>
-                <Button className="m-auto h-10 w-24" text="Login" isLoading={isLoading}/>
+                <Button className="m-auto w-24" text="Login" isLoading={isLoading}/>
             </form>
         </div>
     )
