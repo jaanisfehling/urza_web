@@ -5,7 +5,7 @@ import Errors from "@/components/Errors";
 import useFetch from "@/hooks/useFetch";
 import {useRouter} from "next/navigation";
 import Button from "@/components/Button";
-import {clientError, connectionError} from "@/api/utils";
+import {clientError, connectionError, passwordsDontMatch} from "@/api/utils";
 
 export default function Signup() {
     const [payload, setPayload] = useState<{email: string, password: string, re_password: string}>();
@@ -15,7 +15,7 @@ export default function Signup() {
     async function handleSubmit(event: any) {
         event.preventDefault();
         if (event.target.password.value !== event.target.confirmPassword.value) {
-            setErrors(["The two password fields didn't match"]);
+            setErrors([passwordsDontMatch]);
             return;
         }
         const newPayload = {
