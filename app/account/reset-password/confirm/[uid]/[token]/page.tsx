@@ -1,28 +1,32 @@
-import {connectionError, clientError} from "@/api/utils";
+"use client";
+
+import {connectionError, clientError, passwordsDontMatch} from "@/api/utils";
 import useFetch from "@/hooks/useFetch";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Errors from "@/components/Errors";
 import Button from "@/components/Button";
+import {useRouter} from "next/navigation";
 
 export default function ResetPassword({params}: {params: {uid: string, token: string}}) {
-    const [payload, setPayload] = useState<{email: string, password: string, re_password: string}>();
-    const {isLoading, errors, setErrors} = useFetch<{email: string, password: string, re_password: string}>("POST", "/account/users/", payload);
+    const [payload, setPayload] = useState<{uid: string, token: string, new_password: string, re_new_password: string}>();
+    const {success, isLoading, errors, setErrors} = useFetch<{uid: string, token: string, new_password: string, re_new_password: string}>("POST", "/account/users/reset_password_confirm/", payload);
+    const router = useRouter();
 
     async function handleSubmit(event: any) {
         event.preventDefault();
         if (event.target.password.value !== event.target.confirmPassword.value) {
-            setErrors(["The two password fields didn't match"]);
+            setErrors([passwordsDontMatch]);
             return;
         }
         const newPayload = {
-            email: event.target.email.value,
-            password: event.target.password.value,
-            re_password: event.target.confirmPassword.value,
+            uid: params.uid,
+            token: params.token,
+            new_password: event.target.password.value,
+            re_new_password: event.target.confirmPassword.value,
         }
         setPayload(prevState => {
-            if (prevState?.email === newPayload.email
-                && prevState?.password === newPayload.password
-                && prevState?.re_password === newPayload.re_password
+            if (prevState?.new_password === newPayload.new_password
+                && prevState?.re_new_password === newPayload.re_new_password
                 && errors[0] !== connectionError
                 && errors[0] !== clientError) {
                 return prevState;
@@ -32,14 +36,19 @@ export default function ResetPassword({params}: {params: {uid: string, token: st
         });
     }
 
+    useEffect(() => {
+        if (success) {
+            router.push("/login");
+        }
+    }, [success]);
+
     return (
         <div className="m-auto p-4 w-80 space-y-5 flex flex-col">
-        <Errors errors={errors}/>
+        <Errors errors={errors} dontShowIf={isLoading}/>
         <form onSubmit={handleSubmit} className="flex flex-col space-y-5">
-            <input className="h-10 border-2 p-0.5 rounded-sm dark:bg-gray-900 dark:border-gray-700" id="oldPassword" type="password" placeholder="Email" required/>
-            <input className="h-10 border-2 p-0.5 rounded-sm dark:bg-gray-900 dark:border-gray-700" minLength={8} id="newPassword" type="password" placeholder="Password" required/>
-            <input className="h-10 border-2 p-0.5 rounded-sm dark:bg-gray-900 dark:border-gray-700" minLength={8} id="confirmPassword" type="password" placeholder="Confirm Password" required/>
-            <Button className="m-auto w-24" text="Sign Up" isLoading={isLoading}/>
+            <input className="h-10 border-2 p-0.5 rounded-sm dark:bg-gray-900 dark:border-gray-700" minLength={8} id="password" type="password" placeholder="New Password" required/>
+            <input className="h-10 border-2 p-0.5 rounded-sm dark:bg-gray-900 dark:border-gray-700" minLength={8} id="confirmPassword" type="password" placeholder="Confirm New Password" required/>
+            <Button className="m-auto w-24" text="Change Password" isLoading={isLoading}/>
         </form>
     </div>
     )

@@ -17,32 +17,34 @@ export default function Account() {
     }
 
     const loggedInContext = useContext<LoggedInContextType>(LoggedInContext);
-    const {result: accountResult, errors: accountErrors} = useFetch<{email: string}>("GET", "/account/users/me/");
+    const {result: accountResult, isLoading: accountIsLoading, errors: accountErrors} = useFetch<{email: string}>("GET", "/account/users/me/");
 
     return (
         <>
-            <Errors errors={accountErrors}/>
+            <Errors errors={accountErrors} dontShowIf={accountIsLoading}/>
             <div className="flex justify-between m-6">
                 <h1 className="text-lg">Logged in as: {accountResult?.email}</h1>
-                <Link href="/" onClick={() => {loggedInContext?.setIsLoggedIn(false); logout()}} className="flex items-center place-content-center h-8 px-2.5 bg-white dark:bg-std-blue border rounded-sm border-std-blue dark:border-transparent hover:bg-sky-100 dark:hover:bg-std-blue-hover">Logout</Link>
+                <Link href="/" onClick={() => {loggedInContext?.setIsLoggedIn(false); logout(); redirect("/");}} className="flex items-center place-content-center h-8 px-2.5 bg-white dark:bg-std-blue border rounded-sm border-std-blue dark:border-transparent hover:bg-sky-100 dark:hover:bg-std-blue-hover">Logout</Link>
             </div>
-            <div className="mx-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="flex flex-col space-y-2 p-4 overflow-auto rounded-sm border-2 border-gray-400 dark:border-gray-700">
-                    <p>Upgrade</p>
-                </div>
-                <div className="flex flex-col space-y-2 p-4 overflow-auto rounded-sm border-2 border-gray-400 dark:border-gray-700">
-                    <p>Profile Settings</p>
-                    <SendResetLinks email={accountResult?.email}/>
-                </div>
-                <div className="flex flex-col space-y-2 p-4 overflow-auto rounded-sm border-2 border-gray-400 dark:border-gray-700">
-                    <p>API Key</p>
-                    <APIKeyForm/>
-                </div>
-                <div className="flex flex-col space-y-2 p-4 overflow-auto rounded-sm border-2 border-gray-400 dark:border-gray-700">
-                    <p>Want to connect with other users, request a feature or report a bug?</p>
-                    <a className="text-sky-500 underline" href="https://www.discord.com/">Join our discord server!</a>
-                    <p>You can also get in touch with us via e-mail:</p>
-                    <a className="text-sky-500 underline" href="mailto:support@urza.com">support@urza.com</a>
+            <div className="flex place-content-center">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 2xl:w-8/12 mx-6">
+                    <div className="flex flex-col items-center space-y-4 p-4 overflow-auto rounded-sm border-2 border-gray-400 dark:border-gray-700">
+                        <p>Upgrade</p>
+                    </div>
+                    <div className="flex flex-col items-center space-y-4 p-4 overflow-auto rounded-sm border-2 border-gray-400 dark:border-gray-700">
+                        <p>Profile Settings</p>
+                        <SendResetLinks email={accountResult?.email}/>
+                    </div>
+                    <div className="flex flex-col items-center space-y-4 p-4 overflow-auto rounded-sm border-2 border-gray-400 dark:border-gray-700">
+                        <p>API Key</p>
+                        <APIKeyForm/>
+                    </div>
+                    <div className="flex flex-col items-center space-y-4 p-4 overflow-auto rounded-sm border-2 border-gray-400 dark:border-gray-700">
+                        <p>Want to connect with other users, request a feature or report a bug?</p>
+                        <a className="text-sky-500 underline" href="https://www.discord.com/">Join our discord server!</a>
+                        <p>You can also get in touch with us via e-mail:</p>
+                        <a className="text-sky-500 underline" href="mailto:support@urza.com">support@urza.com</a>
+                    </div>
                 </div>
             </div>
         </>

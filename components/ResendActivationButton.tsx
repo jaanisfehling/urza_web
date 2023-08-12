@@ -8,7 +8,7 @@ export default function ResendActivationButton({className}: {className?: string}
     const {errors, isLoading} = useFetch("POST", "/account/users/resend_activation/", payload);
 
     return (
-        <div className={`flex flex-col space-y-5 ${className}`}>
+        <div className={`flex flex-col space-y-5 ${className != undefined ? className : ""}`}>
             <Errors errors={errors}/>
             <Button className="m-auto" text="Resend" isLoading={isLoading} onClick={() => {setPayload({email: localStorage.getItem("email")})}}/>
         </div>

@@ -3,7 +3,7 @@ import {Dispatch, SetStateAction} from "react";
 
 export default function ArticleList({className, articleList, selectedArticle, setSelectedArticle, onLoadMoreClick}: {className?: string, articleList: Article[] | null | undefined, selectedArticle: Article | null | undefined, setSelectedArticle: Dispatch<SetStateAction<Article | null | undefined>>, onLoadMoreClick: () => void}) {
     return (
-        <div className={`flex flex-col h-full w-full overflow-y-auto ${className}`}>
+        <div className={`flex flex-col h-full w-full overflow-y-auto ${className != undefined ? className : ""}`}>
             {articleList?.map(function (elem, i) {
                 return <ArticleCard article={elem} key={i} isSelected={elem === selectedArticle} onClick={() => {
                     setSelectedArticle(elem)

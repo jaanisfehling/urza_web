@@ -44,7 +44,7 @@ export default function APIKeyForm() {
                     <span>{token}</span>
                 </div>
                 <div className="flex ml-1 space-x-1 my-auto">
-                    <Copy className="" value={getTokenResult?.token}/>
+                    <Copy value={getTokenResult?.token}/>
                     <RefreshButton onClick={() => setRefreshTokenPayload({})}/>
                     <DeleteButton onClick={() => setDeleteTokenPayload({})}/>
                 </div>
