@@ -7,7 +7,7 @@ import Errors from "@/components/Errors";
 import Button from "@/components/Button";
 import {useRouter} from "next/navigation";
 
-export default function ResetPassword({params}: {params: {uid: string, token: string}}) {
+export default function ResetPasswordConfirm({params}: {params: {uid: string, token: string}}) {
     const [payload, setPayload] = useState<{uid: string, token: string, new_password: string, re_new_password: string}>();
     const {success, isLoading, errors, setErrors} = useFetch<{uid: string, token: string, new_password: string, re_new_password: string}>("POST", "/account/users/reset_password_confirm/", payload);
     const router = useRouter();
@@ -47,8 +47,8 @@ export default function ResetPassword({params}: {params: {uid: string, token: st
         <Errors errors={errors} dontShowIf={isLoading}/>
         <form onSubmit={handleSubmit} className="flex flex-col space-y-5">
             <input className="h-10 border-2 p-0.5 rounded-sm dark:bg-gray-900 dark:border-gray-700" minLength={8} id="password" type="password" placeholder="New Password" required/>
-            <input className="h-10 border-2 p-0.5 rounded-sm dark:bg-gray-900 dark:border-gray-700" minLength={8} id="confirmPassword" type="password" placeholder="Confirm New Password" required/>
-            <Button className="m-auto w-24" text="Change Password" isLoading={isLoading}/>
+            <input className="h-10 border-2 p-0.5 rounded-sm dark:bg-gray-900 dark:border-gray-700" minLength={8} id="confirmPassword" type="password" placeholder="Confirm new Password" required/>
+            <Button className="m-auto w-40" text="Change Password" isLoading={isLoading}/>
         </form>
     </div>
     )

@@ -91,7 +91,8 @@ export function getErrorMessages(data: any): string[] {
     return messages;
 }
 
-export const passwordsDontMatch = "Passwords do not match"
+export const passwordsDontMatch = "Passwords do not match";
+export const emailsDontMatch = "Emails do not match";
 export const connectionError = "Cannot reach server";
 export const clientError = "Error: Try a different browser";
 export const badRequestError = "Error: Cannot make that request";
