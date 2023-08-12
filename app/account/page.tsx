@@ -25,7 +25,6 @@ export default function Account() {
             <div className="flex justify-between m-6">
                 <h1 className="text-lg">Logged in as: {accountResult?.email}</h1>
                 <Link href="/" onClick={() => {loggedInContext?.setIsLoggedIn(false); logout(); redirect("/");}} className="flex items-center place-content-center h-8 px-2.5 bg-white dark:bg-std-blue border rounded-sm border-std-blue dark:border-transparent hover:bg-sky-100 dark:hover:bg-std-blue-hover">Logout</Link>
-                <Link href="/" onClick={() => {loggedInContext?.setIsLoggedIn(false); logout(); redirect("/");}} className="flex items-center place-content-center h-8 px-2.5 bg-white dark:bg-std-blue border rounded-sm border-std-blue dark:border-transparent hover:bg-sky-100 dark:hover:bg-std-blue-hover">Logout</Link>
             </div>
             <div className="flex place-content-center">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 2xl:w-8/12 mx-6">
