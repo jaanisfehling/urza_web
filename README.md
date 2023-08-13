@@ -7,5 +7,4 @@
 
 ## Todo:
 
-- Error messages print missing field
 - cookies instead of localstorage

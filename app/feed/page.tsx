@@ -19,7 +19,6 @@ export default function Feed() {
     const [selectedArticle, setSelectedArticle] = useState<Article | null | undefined>(null);
     const {result, errors} = useFetch<ArticleResponse>("GET", url);
 
-    const [wsUrl, setWsUrl] = useState<string>();
     const {messages, errors: wsErrors} = useWebsocket<Article>("/news/");
 
     useEffect(() => {
