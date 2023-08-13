@@ -7,6 +7,7 @@ import Errors from "@/components/Errors";
 import useFetch from "@/hooks/useFetch";
 import Button from "@/components/Button";
 import { LoggedInContextType, LoggedInContext } from "@/context_providers/logged-in-provider";
+import Link from "next/link";
 
 export default function Login() {
     const [payload, setPayload] = useState<{email: string, password: string}>();
@@ -46,6 +47,7 @@ export default function Login() {
             <form onSubmit={handleSubmit} className="flex flex-col space-y-5">
                 <input className="h-10 border-2 p-0.5 rounded-sm dark:bg-gray-900 dark:border-gray-700" id="email" type="email" placeholder="Email" required/>
                 <input className="h-10 border-2 p-0.5 rounded-sm dark:bg-gray-900 dark:border-gray-700" id="password" type="password" placeholder="Password" required/>
+                {errors.length != 0 && errors[0] !== connectionError && errors[0] !== clientError && <Link href="account/reset-password/" className="text-sky-500 m-auto">Forgot Password?</Link>}
                 <Button className="m-auto w-24" text="Login" isLoading={isLoading}/>
             </form>
         </div>
