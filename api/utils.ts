@@ -85,7 +85,11 @@ export function getErrorMessages(data: any): string[] {
         }
     } else if (typeof data === "object" && data !== null) {
         for (const [key, field] of Object.entries(data)) {
-            messages.push(`${key.charAt(0).toUpperCase() + key.slice(1)}: ${getErrorMessages(field)}`);
+            if (key == "detail") {
+                messages.push(`${getErrorMessages(field)}`);
+            } else {
+                messages.push(`${key.charAt(0).toUpperCase() + key.slice(1)}: ${getErrorMessages(field)}`);
+            }
         }
     }
     return messages;
