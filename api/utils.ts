@@ -13,8 +13,6 @@ export function login(result: {access: string, refresh: string}) {
     refreshExpiry.setDate(refreshExpiry.getDate() + 1);
     refreshExpiry.setSeconds(refreshExpiry.getSeconds() - 10);
     localStorage.setItem("refreshExpiry", refreshExpiry.toISOString());
-
-    sessionStorage.removeItem("email");
 }
 
 export function logout() {

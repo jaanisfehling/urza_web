@@ -1,12 +1,16 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Chart from "@/components/LineCandleChart";
 import useFetch from "@/hooks/useFetch";
 import Errors from "@/components/Errors";
 
 export default function ChartContainer({ticker}: {ticker: string}) {
     const [chartType, setChartType] = useState<"candlestick" | "line">("candlestick");
-    const [url, setUrl] = useState<string>(`/market/ohlc/${ticker}/hour/`)
+    const [url, setUrl] = useState<string>(`/market/ohlc/${ticker}/hour/`);
     const {result, errors} = useFetch<OHLC>("GET", url);
+
+    useEffect(() => {
+        setUrl(`/market/ohlc/${ticker}/hour/`);
+    }, [ticker]);
 
     return (
         <div className="flex flex-col justify-between overflow-auto h-full w-full border-2 rounded-sm border-gray-400 dark:border-gray-700">

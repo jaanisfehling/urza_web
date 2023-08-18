@@ -5,9 +5,7 @@ export default function ArticleList({className, articleList, selectedArticle, se
     return (
         <div className={`flex flex-col h-full w-full overflow-y-auto ${className != undefined ? className : ""}`}>
             {articleList?.map(function (elem, i) {
-                return <ArticleCard article={elem} key={i} isSelected={elem === selectedArticle} onClick={() => {
-                    setSelectedArticle(elem)
-                }}/>
+                return <ArticleCard article={elem} key={i} isSelected={elem === selectedArticle} onClick={() => {setSelectedArticle(elem)}}/>
             })}
             <button className="mb-2 mt-2 align-center underline" onClick={onLoadMoreClick}>Load More</button>
         </div>

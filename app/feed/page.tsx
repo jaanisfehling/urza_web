@@ -6,7 +6,7 @@ import Errors from "@/components/Errors";
 import useWebsocket from "@/hooks/useWebSocket";
 import dynamic from "next/dynamic";
 
-const MainGrid = dynamic(() => import("@/components/MainGrid"), {ssr: false})
+const MainGrid = dynamic(() => import("@/components/MainGrid"), {ssr: false});
 
 export default function Feed() {
     const [url, setUrl] = useState<string>("/news/article/");
