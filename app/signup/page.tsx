@@ -38,7 +38,6 @@ export default function Signup() {
 
     useEffect(() => {
         if (result) {
-            sessionStorage.setItem("email", result.email);
             router.push("/welcome");
         }
     }, [result]);
