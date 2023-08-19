@@ -34,7 +34,7 @@ export default function LineCandleChart({data, chartType}: {data: OHLC, chartTyp
         function updateColorScheme(event: any) {event.matches ? setTheme("dark") : setTheme("light")}
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateColorScheme);
         return () => window.removeEventListener("resize", updateColorScheme);
-    }, []);
+    }, [data, chartType]);
 
     useEffect(() => {
         if (chartType == "line" && chartData && chartData[0].data[0].y > chartData[0].data[chartData[0].data.length - 1].y) {
@@ -44,7 +44,6 @@ export default function LineCandleChart({data, chartType}: {data: OHLC, chartTyp
 
     const commonOptions: ApexOptions = {
         chart: {
-            id: crypto.randomUUID(),
             zoom: {
                 enabled: false,
             },
