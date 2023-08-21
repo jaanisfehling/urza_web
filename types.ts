@@ -21,22 +21,15 @@ type ArticleResponse = {
 }
 
 type OHLC = {
-    [ticker: string]: {
-        "t": string,
-        "o": number,
-        "h": number,
-        "l": number,
-        "c": number,
-        "v": number
-    }[]
-}
+    "open": number,
+    "low": number,
+    "high": number,
+    "close": number,
+    "volume": number
+    "t": string,
+}[]
 
 type Quote = {
-    [ticker: string]: {
-        "t": string,
-        "a_p": number,
-        "a_s": number,
-        "b_p": number,
-        "b_s": number
-    }
+    "price": number,
+    "volume": number
 }

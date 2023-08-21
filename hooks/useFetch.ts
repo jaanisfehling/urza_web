@@ -3,7 +3,7 @@ import {axiosPrivate, axiosPublic} from "@/api/axios";
 import {clientError, connectionError, badRequestError, getErrorMessages} from "@/api/utils";
 import { AxiosError } from 'axios';
 
-export default function useFetch<T>(method: string, url: string, payload?: object) {
+export default function useFetch<T>(method: string, url: string, payload?: object, queryParams?: object) {
     const [success, setSuccess] = useState(false);
     const [result, setResult] = useState<T | null>(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -24,9 +24,9 @@ export default function useFetch<T>(method: string, url: string, payload?: objec
 
                 let response;
                 if (method === "GET") {
-                    response = await actualAxios.request({method: method, url: url});
+                    response = await actualAxios.request({method: method, url: url, params: queryParams});
                 } else {
-                    response = await actualAxios.request({method: method, url: url, data: payload});
+                    response = await actualAxios.request({method: method, url: url, data: payload, params: queryParams});
                 }
 
                 setResult(response.data);
@@ -53,7 +53,7 @@ export default function useFetch<T>(method: string, url: string, payload?: objec
         if (payload || method === "GET") {
             performFetch();
         }
-    }, [method, url, payload]);
+    }, [method, url, payload, queryParams]);
     
     return {success, result, isLoading, errors, setIsLoading, setErrors};
 }

@@ -7,15 +7,15 @@ type ApexLine = {x: Date, y: number}[]
 
 function transformOHLCData(data: OHLC): ApexOHLC {
     const newArray: {x: Date, y: number[]}[] = [];
-    Object.values(data)[0].forEach((e) => {
-        newArray.push({x: new Date(e.t), y: [e.o, e.h, e.l, e.c]});
+    data.forEach((e) => {
+        newArray.push({x: new Date(e.t), y: [e.open, e.high, e.low, e.close]});
     });
     return newArray;
 }
 function transformLineData(data: OHLC): ApexLine {
     const newArray: {x: Date, y: number}[] = [];
-    Object.values(data)[0].forEach((e) => {
-        newArray.push({x: new Date(e.t), y: e.c});
+    data.forEach((e) => {
+        newArray.push({x: new Date(e.t), y: e.close});
     });
     return newArray;
 }
