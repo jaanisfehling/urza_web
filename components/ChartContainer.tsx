@@ -36,7 +36,7 @@ export default function ChartContainer({ticker}: {ticker: string}) {
                     <button className={`text-xs hover:text-sky-500 ${queryParams.timespan == "1H" && "underline"}`} onClick={() => setQueryParams({frequency: "1min", timespan: "1H"})}>1H</button>
                     <button className={`text-xs hover:text-sky-500 ${queryParams.timespan == "1D" && "underline"}`} onClick={() => setQueryParams({frequency: (chartType == "candlestick") ? "5min" : "1min", timespan: "1D"})}>1D</button>
                     <button className={`text-xs hover:text-sky-500 ${queryParams.timespan == "1W" && "underline"}`} onClick={() => setQueryParams({frequency: (chartType == "candlestick") ? "30min" : "5min", timespan: "1W"})}>1W</button>
-                    <button className={`text-xs hover:text-sky-500 ${queryParams.timespan == "1M" && "underline"}`} onClick={() => setQueryParams({frequency: (chartType == "candlestick") ? "1h" : "15min", timespan: "1M"})}>1M</button>
+                    <button className={`text-xs hover:text-sky-500 ${queryParams.timespan == "1M" && "underline"}`} onClick={() => setQueryParams({frequency: (chartType == "candlestick") ? "1hour" : "15min", timespan: "1M"})}>1M</button>
                     <button className={`text-xs hover:text-sky-500 ${queryParams.timespan == "1Y" && "underline"}`} onClick={() => setQueryParams({frequency: "1day", timespan: "1Y"})}>1Y</button>
                     <button className={`text-xs hover:text-sky-500 ${queryParams.timespan == "Max" && "underline"}`} onClick={() => setQueryParams({frequency: "1day", timespan: "Max"})}>Max</button>
                 </div>
