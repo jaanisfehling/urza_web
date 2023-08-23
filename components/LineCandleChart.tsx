@@ -22,18 +22,11 @@ function transformLineData(data: OHLC): ApexLine {
 
 export default function LineCandleChart({data, chartType}: {data: OHLC, chartType: "candlestick" | "line"}) {
     const [chartData, setChartData] = useState<[{data: ApexOHLC | ApexLine}]>();
-    const [theme, setTheme] = useState<"dark" | "light">(window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light")
     const [lineColor, setLineColor] = useState("#00ff00");
 
     useEffect(() => {
-        // Set Data after first render so charts are using full width
         const transformedData = (chartType == "candlestick") ? transformOHLCData(data) : transformLineData(data);
         setChartData([{data: transformedData}]);
-
-        // Listen for color theme (light/dark) changes
-        function updateColorScheme(event: any) {event.matches ? setTheme("dark") : setTheme("light")}
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateColorScheme);
-        return () => window.removeEventListener("resize", updateColorScheme);
     }, [data, chartType]);
 
     useEffect(() => {
@@ -66,7 +59,10 @@ export default function LineCandleChart({data, chartType}: {data: OHLC, chartTyp
             align: "center",
         },
         xaxis: {
-            type: "datetime",
+            type: "category",
+            labels: {
+                formatter: (val) => {return "date"}
+            }
         },
         yaxis: {
             tooltip: {
@@ -74,7 +70,7 @@ export default function LineCandleChart({data, chartType}: {data: OHLC, chartTyp
             },
         },
         theme: {
-            mode: theme
+            mode: window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light"
         },
         colors: [lineColor],
     }

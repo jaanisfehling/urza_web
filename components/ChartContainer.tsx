@@ -13,6 +13,18 @@ export default function ChartContainer({ticker}: {ticker: string}) {
         setUrl(`/market/ohlc/${ticker}/`);
     }, [ticker]);
 
+    function handleChartTypeChange() {
+        const newChartType = (chartType == "candlestick") ? "line" : "candlestick";
+        setChartType(newChartType);
+        if (queryParams.timespan == "1D") {
+            setQueryParams({frequency: (newChartType == "candlestick") ? "5min" : "1min", timespan: "1D"});
+        } else if (queryParams.timespan == "1W") {
+            setQueryParams({frequency: (newChartType == "candlestick") ? "30min" : "5min", timespan: "1W"});
+        } else if (queryParams.timespan == "1M") {
+            setQueryParams({frequency: (newChartType == "candlestick") ? "1h" : "15min", timespan: "1M"});
+        }
+    }
+
     return (
         <div className="flex flex-col justify-between overflow-auto h-full w-full border-2 rounded-sm border-gray-400 dark:border-gray-700">
             <div className="h-full w-full">
@@ -37,7 +49,7 @@ export default function ChartContainer({ticker}: {ticker: string}) {
                     <button className={`text-xs hover:text-sky-500 ${queryParams.frequency == "1day" && "underline"}`} onClick={() => setQueryParams(prevState => {return {frequency: "1day", timespan: prevState.timespan}})}>1day</button>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
-                    <input type="checkbox" className="sr-only peer" defaultChecked={true} onChange={() => setChartType(prevState => (prevState == "line") ? "candlestick" : "line")}/>
+                    <input type="checkbox" className="sr-only peer" defaultChecked={true} onChange={handleChartTypeChange}/>
                     <div className="w-7 h-4 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[5.49px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all dark:border-gray-600 peer-checked:bg-blue-400"></div>
                     <span className="ml-1 text-xs font-light">Candles</span>
                 </label>
