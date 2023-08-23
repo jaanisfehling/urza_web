@@ -21,7 +21,7 @@ export default function ChartContainer({ticker}: {ticker: string}) {
         } else if (queryParams.timespan == "1W") {
             setQueryParams({frequency: (newChartType == "candlestick") ? "30min" : "5min", timespan: "1W"});
         } else if (queryParams.timespan == "1M") {
-            setQueryParams({frequency: (newChartType == "candlestick") ? "1h" : "15min", timespan: "1M"});
+            setQueryParams({frequency: (newChartType == "candlestick") ? "1hour" : "15min", timespan: "1M"});
         }
     }
 
