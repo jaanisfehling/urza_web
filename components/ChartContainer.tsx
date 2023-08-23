@@ -19,22 +19,22 @@ export default function ChartContainer({ticker}: {ticker: string}) {
                 <Errors errors={errors}/>
                 {result && <Chart data={result} chartType={chartType}/>}
             </div>
-            <div className="flex justify-between p-2">
+            <div className="flex justify-between space-x-2 p-2">
                 <div className="flex space-x-2">
                     <button className={`text-xs hover:text-sky-500 ${queryParams.timespan == "1H" && "underline"}`} onClick={() => setQueryParams({frequency: "1min", timespan: "1H"})}>1H</button>
                     <button className={`text-xs hover:text-sky-500 ${queryParams.timespan == "1D" && "underline"}`} onClick={() => setQueryParams({frequency: (chartType == "candlestick") ? "5min" : "1min", timespan: "1D"})}>1D</button>
-                    <button className={`text-xs hover:text-sky-500 ${queryParams.timespan == "1W" && "underline"}`} onClick={() => setQueryParams(prevState => {return {frequency: prevState.frequency, timespan: "1W"}})}>1W</button>
-                    <button className={`text-xs hover:text-sky-500 ${queryParams.timespan == "1M" && "underline"}`} onClick={() => setQueryParams(prevState => {return {frequency: prevState.frequency, timespan: "1M"}})}>1M</button>
-                    <button className={`text-xs hover:text-sky-500 ${queryParams.timespan == "1Y" && "underline"}`} onClick={() => setQueryParams(prevState => {return {frequency: prevState.frequency, timespan: "1Y"}})}>1Y</button>
-                    <button className={`text-xs hover:text-sky-500 ${queryParams.timespan == "Max" && "underline"}`} onClick={() => setQueryParams(prevState => {return {frequency: prevState.frequency, timespan: "Max"}})}>Max</button>
+                    <button className={`text-xs hover:text-sky-500 ${queryParams.timespan == "1W" && "underline"}`} onClick={() => setQueryParams({frequency: (chartType == "candlestick") ? "30min" : "5min", timespan: "1W"})}>1W</button>
+                    <button className={`text-xs hover:text-sky-500 ${queryParams.timespan == "1M" && "underline"}`} onClick={() => setQueryParams({frequency: (chartType == "candlestick") ? "1h" : "15min", timespan: "1M"})}>1M</button>
+                    <button className={`text-xs hover:text-sky-500 ${queryParams.timespan == "1Y" && "underline"}`} onClick={() => setQueryParams({frequency: "1day", timespan: "1Y"})}>1Y</button>
+                    <button className={`text-xs hover:text-sky-500 ${queryParams.timespan == "Max" && "underline"}`} onClick={() => setQueryParams({frequency: "1day", timespan: "Max"})}>Max</button>
                 </div>
                 <div className="flex space-x-2">
                     <button className={`text-xs hover:text-sky-500 ${queryParams.frequency == "1min" && "underline"}`} onClick={() => setQueryParams(prevState => {return {frequency: "1min", timespan: prevState.timespan}})}>1min</button>
                     <button className={`text-xs hover:text-sky-500 ${queryParams.frequency == "5min" && "underline"}`} onClick={() => setQueryParams(prevState => {return {frequency: "5min", timespan: prevState.timespan}})}>5min</button>
                     <button className={`text-xs hover:text-sky-500 ${queryParams.frequency == "15min" && "underline"}`} onClick={() => setQueryParams(prevState => {return {frequency: "15min", timespan: prevState.timespan}})}>15min</button>
                     <button className={`text-xs hover:text-sky-500 ${queryParams.frequency == "30min" && "underline"}`} onClick={() => setQueryParams(prevState => {return {frequency: "30min", timespan: prevState.timespan}})}>30min</button>
-                    <button className={`text-xs hover:text-sky-500 ${queryParams.frequency == "1hour" && "underline"}`} onClick={() => setQueryParams(prevState => {return {frequency: "1hour", timespan: prevState.timespan}})}>1h</button>
-                    <button className={`text-xs hover:text-sky-500 ${queryParams.frequency == "1day" && "underline"}`} onClick={() => setQueryParams(prevState => {return {frequency: "1day", timespan: prevState.timespan}})}>1d</button>
+                    <button className={`text-xs hover:text-sky-500 ${queryParams.frequency == "1hour" && "underline"}`} onClick={() => setQueryParams(prevState => {return {frequency: "1hour", timespan: prevState.timespan}})}>1hour</button>
+                    <button className={`text-xs hover:text-sky-500 ${queryParams.frequency == "1day" && "underline"}`} onClick={() => setQueryParams(prevState => {return {frequency: "1day", timespan: prevState.timespan}})}>1day</button>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" className="sr-only peer" defaultChecked={true} onChange={() => setChartType(prevState => (prevState == "line") ? "candlestick" : "line")}/>
