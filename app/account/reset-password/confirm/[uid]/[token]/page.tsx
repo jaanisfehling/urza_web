@@ -46,8 +46,8 @@ export default function ResetPasswordConfirm({params}: {params: {uid: string, to
         <div className="m-auto p-4 w-80 space-y-5 flex flex-col">
         <Errors errors={errors} dontShowIf={isLoading}/>
         <form onSubmit={handleSubmit} className="flex flex-col space-y-5">
-            <input className="h-10 border-2 p-0.5 rounded-sm dark:bg-gray-900 dark:border-gray-700" minLength={8} id="password" type="password" placeholder="New Password" required/>
-            <input className="h-10 border-2 p-0.5 rounded-sm dark:bg-gray-900 dark:border-gray-700" minLength={8} id="confirmPassword" type="password" placeholder="Confirm new Password" required/>
+            <input className="h-10 border-2 p-0.5 rounded-sm dark:bg-black dark:border-gray-700" minLength={8} id="password" type="password" placeholder="New Password" required/>
+            <input className="h-10 border-2 p-0.5 rounded-sm dark:bg-black dark:border-gray-700" minLength={8} id="confirmPassword" type="password" placeholder="Confirm new Password" required/>
             <Button className="m-auto w-40" text="Change Password" isLoading={isLoading}/>
         </form>
     </div>

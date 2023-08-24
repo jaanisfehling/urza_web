@@ -42,7 +42,7 @@ export default function ResetPassword() {
             <Errors errors={errors} dontShowIf={isLoading}/>
             <h1 className="text-md text-center">Send a link to your email to reset your password:</h1>
             <form onSubmit={handleSubmit} className="flex flex-col space-y-5">
-                <input className="h-10 border-2 p-0.5 rounded-sm dark:bg-gray-900 dark:border-gray-700" id="email" type="email" placeholder="Email" value={inputVal} onChange={(e) => setInputVal(e.target.value)} required/>
+                <input className="h-10 border-2 p-0.5 rounded-sm dark:bg-black dark:border-gray-700" id="email" type="email" placeholder="Email" value={inputVal} onChange={(e) => setInputVal(e.target.value)} required/>
                 {!emailSent 
                 ? <Button className="w-36 m-auto" text="Send Mail" isLoading={isLoading}/>
                 : <span className="sm:h-8 m-auto">Email was successfully sent.</span>}

@@ -34,7 +34,7 @@ export default function Navbar() {
 
     return (
         <>
-            <div className="flex h-14 px-4 items-center justify-between border-b-2 border-gray-700 dark:border-gray-700 bg-white dark:bg-gray-900">
+            <div className="flex h-14 px-4 items-center justify-between border-b-2 border-gray-700 dark:border-gray-700 bg-white dark:bg-black">
                 <Link href={loggedInContext?.isLoggedIn ? "/feed" : "/"} className="text-2xl font-normal">Urza</Link>
                 <div className="relative flex">
                     <button onClick={() => setShowSidebar(!showSidebar)} className="absolute top-2 right-0 z-20 md:invisible px-2.5 rounded-sm text-2xl">{showSidebar ? "✖" : "☰"}</button>
@@ -46,7 +46,7 @@ export default function Navbar() {
                 </div>
             </div>
             {showSidebar &&
-            <div className="flex flex-col space-y-5 fixed h-full w-full z-40 pt-5 overflow-y-auto bg-white dark:bg-gray-900">
+            <div className="flex flex-col space-y-5 fixed h-full w-full z-40 pt-5 overflow-y-auto bg-white dark:bg-black">
                 {links.map((e, i) =>
                     <Link key={i} href={links[1].link} onClick={() => setShowSidebar(false)} className="flex items-center ml-8 text-std">{links[1].text}</Link>)
                 }

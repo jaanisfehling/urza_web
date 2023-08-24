@@ -46,8 +46,8 @@ export default function ResetEmailConfirm({params}: {params: {uid: string, token
         <div className="m-auto p-4 w-80 space-y-5 flex flex-col">
         <Errors errors={errors} dontShowIf={isLoading}/>
         <form onSubmit={handleSubmit} className="flex flex-col space-y-5">
-            <input className="h-10 border-2 p-0.5 rounded-sm dark:bg-gray-900 dark:border-gray-700" minLength={8} id="email" type="email" placeholder="New Email" required/>
-            <input className="h-10 border-2 p-0.5 rounded-sm dark:bg-gray-900 dark:border-gray-700" minLength={8} id="confirmEmail" type="email" placeholder="Confirm new Email" required/>
+            <input className="h-10 border-2 p-0.5 rounded-sm dark:bg-black dark:border-gray-700" minLength={8} id="email" type="email" placeholder="New Email" required/>
+            <input className="h-10 border-2 p-0.5 rounded-sm dark:bg-black dark:border-gray-700" minLength={8} id="confirmEmail" type="email" placeholder="Confirm new Email" required/>
             <Button className="m-auto w-36" text="Change Email" isLoading={isLoading}/>
         </form>
     </div>

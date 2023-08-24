@@ -22,11 +22,11 @@ type ArticleResponse = {
 
 type OHLC = {
     "open": number,
-    "low": number,
     "high": number,
+    "low": number,
     "close": number,
     "volume": number
-    "t": string,
+    "time": string,
 }[]
 
 type Quote = {

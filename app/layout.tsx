@@ -18,7 +18,7 @@ export default function RootLayout({children}: {children?: ReactNode}) {
         <html lang="en">
             <body className={inter.className + ""}>
                 <Providers>
-                    <div className="flex flex-col min-h-screen bg-white dark:bg-gray-900">
+                    <div className="flex flex-col min-h-screen bg-white dark:bg-black">
                         <div className="static">
                             <div className="absolute sticky top-0 z-10 h-14">
                                 <DynamicNavbar/>
