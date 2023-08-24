@@ -4,6 +4,7 @@ import useFetch from "@/hooks/useFetch";
 import Errors from "@/components/Errors";
 
 export default function ChartContainer({ticker}: {ticker: string}) {
+    // @ts-ignore
     const [chartType, setChartType] = useState<"candlestick" | "line">(localStorage.getItem("chartType")||"candlestick");
     const parentChartRef = useRef<HTMLDivElement>(null);
     const [url, setUrl] = useState<string>(`/market/ohlc/${ticker}/`);
